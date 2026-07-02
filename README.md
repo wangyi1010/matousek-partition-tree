@@ -15,16 +15,16 @@ explain why theory-optimal never shipped.
 *n = 1200 points, r = 64: the construction produces 66 disjoint point groups
 of sizes in [18, 36) (left), each contained in a — possibly overlapping —
 triangle (middle). A halfplane query only recurses into the simplices its
-boundary line crosses; everything else is counted wholesale in O(1) (right).*
+boundary line crosses; everything else is counted wholesale in $`O(1)`$ (right).*
 
 ## The headline result
 
-The theorem guarantees every line crosses at most O(√r) of the ~r simplices.
+The theorem guarantees every line crosses at most $`O(\sqrt r)`$ of the roughly $`r`$ simplices.
 Measured on this implementation (n = 1200, seed 7, one theorem application;
 `python3 benchmarks/measure_crossings.py` reproduces this table in a few
 minutes — exact rational arithmetic is slow):
 
-| r | groups | \|Q\| | K_Q (test lines) | K_Q / √r | random-line max | lemma bound 3·K_Q + √r |
+| $`r`$ | groups | $`\lvert Q\rvert`$ | $`K_Q`$ (test lines) | $`K_Q/\sqrt r`$ | random-line max | lemma bound $`3K_Q+\sqrt r`$ |
 |---|---|---|---|---|---|---|
 | 25 | 25 | 17 | 20 | 4.00 | 25 | 65 (vacuous) |
 | 36 | 36 | 31 | 25 | 4.17 | 34 | 81 (vacuous) |
@@ -34,11 +34,11 @@ minutes — exact rational arithmetic is slow):
 
 Two things are true at once, and that tension is the point of the project:
 
-- **The mechanism works.** K_Q — the crossing count the exponential weights
-  directly control — grows like √r with a measured constant of ≈ 4–5, far
+- **The mechanism works.** $`K_Q`$ — the crossing count the exponential weights
+  directly control — grows like $`\sqrt r`$ with a measured constant of ≈ 4–5, far
   below the group count as r grows.
 - **The constants kill it.** The Test Set Lemma transfers the bound to all
-  lines as cr(h) ≤ 3·K_Q + √r, which exceeds the total number of groups
+  lines as $`\mathrm{cr}(h)\le 3K_Q+\sqrt r`$, which exceeds the total number of groups
   until r is in the hundreds. Below that scale the theorem promises nothing
   about non-test lines — and above it, the exact-arithmetic construction
   already takes minutes. This is why production systems use R-trees and
@@ -50,18 +50,18 @@ Every precondition of the construction that can be checked at runtime is
 checked, and violations raise instead of degrading silently:
 
 - **Weighted cuttings** are built by the two-level Chazelle–Friedman scheme
-  (coarse ~t-line sample, then refinement of heavy cells only — a naive
-  t·log t sample provably cannot satisfy the O(t²) face budget) and are
+  (coarse $`\sim t`$-line sample, then refinement of heavy cells only — a naive
+  $`t\log t`$ sample provably cannot satisfy the $`O(t^2)`$ face budget) and are
   **verified** against both cutting conditions: per-cell crossing weight
-  ≤ W/t, and face count within the pigeonhole budget nᵢ/s. Unverifiable
+  $`\le W/t`$, and face count within the pigeonhole budget $`n_i/s`$. Unverifiable
   cuttings raise `CuttingError`.
 - **The test set Q** is the dual of *all* vertices of a fixed-scale
-  (1/(β√r))-cutting of P*, β = 0.25 fixed. If the cutting has more than r
+  $`(1/(\beta\sqrt r))`$-cutting of $`P^*`$, $`\beta=0.25`$ fixed. If the cutting has more than $`r`$
   vertices, the code raises `TestSetError` rather than shrinking the cutting
-  scale (which would silently invalidate the Test Set Lemma's O(n/(s√r))
+  scale (which would silently invalidate the Test Set Lemma's $`O(n/(s\sqrt r))`$
   conflict bound).
 - **Pigeonhole is an assert, not a search**: the face budget guarantees a
-  face with ≥ s remaining points exists.
+  face with $`\ge s`$ remaining points exists.
 - **All geometry is exact rational arithmetic** (`fractions.Fraction`);
   boundary contacts follow a general-position convention used consistently
   in construction and verification.
@@ -78,7 +78,7 @@ quietly destroyed the theorem's cutting scale.
 - **Not a certified implementation of the theorem.** Cuttings are built in a
   bounding box that contains the arrangement's full combinatorial structure,
   not the projective plane; the construction is Las Vegas and may raise for
-  small r or unlucky seeds; β√r ≤ 1 (r < 16) degenerates the test-set
+  small r or unlucky seeds; $`\beta\sqrt r\le 1`$ ($`r<16`$) degenerates the test-set
   cutting to a trivial box — the regime where the bound is vacuous anyway.
 - **Not a production spatial index.** For the practical counterpart, see
   [`src/practical_partition_tree_2d.py`](src/practical_partition_tree_2d.py):
@@ -126,16 +126,16 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 
 ## Theory in one paragraph
 
-Given n points and group size s (r = n/s), the theorem builds groups of size
-[s, 2s), each inside a triangle, such that every line crosses only O(√r)
+Given $`n`$ points and group size $`s`$ ($`r=n/s`$), the theorem builds groups of size
+$`[s,2s)`$, each inside a triangle, such that every line crosses only $`O(\sqrt r)`$
 triangles. Construction: dualize points to lines; the vertices of a
-(1/√r)-cutting of the dual, dualized back, form ≤ r *test lines* Q such that
+$`(1/\sqrt r)`$-cutting of the dual, dualized back, form $`\le r`$ *test lines* $`Q`$ such that
 controlling Q controls all lines (any line is "sandwiched" by 3 test lines).
 Groups are then peeled off round by round: each test line carries weight
-2^(number of times crossed so far), and each round takes a ≥ s-point face
+$`2^{\kappa}`$ (where $`\kappa`$ counts its crossings so far), and each round takes a $`\ge s`$-point face
 from a *weighted* cutting — expensive (often-crossed) lines are avoided by
 construction, and a potential argument turns slow total-weight growth into
-K_Q = O(log|Q| + √r). Full derivation with proofs:
+$`K_Q=O(\log\lvert Q\rvert+\sqrt r)`$. Full derivation with proofs:
 [`docs/two_dimensional_partition_theorem_math_only.md`](docs/two_dimensional_partition_theorem_math_only.md).
 
 ## Citation
