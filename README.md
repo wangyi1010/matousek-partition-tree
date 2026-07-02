@@ -1,134 +1,148 @@
-# Matousek Partition Tree Demo
+# Matoušek Partition Tree — verified proof-skeleton implementation
 
-Verified proof-skeleton implementation of the two-dimensional Matousek partition-tree construction, plus a practical kd-style baseline.
+[![ci](https://github.com/wangyi1010/matousek-partition-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/wangyi1010/matousek-partition-tree/actions/workflows/ci.yml)
 
-This project is for computational-geometry study and demonstration. It is not a production spatial index and not a certified implementation of Matousek's theorem.
+A working, runtime-verified implementation of the 2D **Partition Theorem**
+(Matoušek 1992) for halfplane range counting — an algorithm that is optimal
+on paper and, as far as I can tell, has **no existing library implementation
+anywhere**. This project implements the actual proof machinery (point-line
+duality, weighted cuttings, exponential reweighting), verifies every
+enforceable precondition at runtime, and **measures the constants** that
+explain why theory-optimal never shipped.
 
-## What This Implements
+![One application of the Partition Theorem](assets/partition_tree_example.png)
 
-The main script follows the 2D proof skeleton:
+*n = 1200 points, r = 64: the construction produces 66 disjoint point groups
+of sizes in [18, 36) (left), each contained in a — possibly overlapping —
+triangle (middle). A halfplane query only recurses into the simplices its
+boundary line crosses; everything else is counted wholesale in O(1) (right).*
 
-1. Dualize the input point set into lines.
-2. Build a finite test set from vertices of a fixed-scale cutting.
-3. Construct groups round by round using exponential weights.
-4. Build weighted cuttings and verify their preconditions.
-5. Double weights for crossed test lines.
-6. Recurse into a partition tree.
-7. Answer halfplane counting queries by prune/take/recurse.
+## The headline result
 
-The implementation uses exact rational arithmetic with `fractions.Fraction`.
+The theorem guarantees every line crosses at most O(√r) of the ~r simplices.
+Measured on this implementation (n = 1200, seed 7, one theorem application;
+`python3 benchmarks/measure_crossings.py` reproduces this table in a few
+minutes — exact rational arithmetic is slow):
 
-## What This Does Not Claim
+| r | groups | \|Q\| | K_Q (test lines) | K_Q / √r | random-line max | lemma bound 3·K_Q + √r |
+|---|---|---|---|---|---|---|
+| 25 | 25 | 17 | 20 | 4.00 | 25 | 65 (vacuous) |
+| 36 | 36 | 31 | 25 | 4.17 | 34 | 81 (vacuous) |
+| 64 | 66 | 55 | 39 | 4.88 | 48 | 125 (vacuous) |
 
-- It is not an industrial R-tree/kd-tree replacement.
-- It is not a certified formal implementation of the theorem.
-- It uses a bounded box model for cuttings instead of the full projective plane.
-- Constants are large; the verified proof-skeleton is intentionally slow.
+![Crossing-number scaling](assets/crossing_scaling.png)
 
-For practical spatial indexing, see `src/practical_partition_tree_2d.py`.
+Two things are true at once, and that tension is the point of the project:
 
-## Files
+- **The mechanism works.** K_Q — the crossing count the exponential weights
+  directly control — grows like √r with a measured constant of ≈ 4–5, far
+  below the group count as r grows.
+- **The constants kill it.** The Test Set Lemma transfers the bound to all
+  lines as cr(h) ≤ 3·K_Q + √r, which exceeds the total number of groups
+  until r is in the hundreds. Below that scale the theorem promises nothing
+  about non-test lines — and above it, the exact-arithmetic construction
+  already takes minutes. This is why production systems use R-trees and
+  kd-trees with no adversarial guarantee instead.
 
-- `src/matousek_partition_tree.py` - verified proof-skeleton implementation.
-- `src/practical_partition_tree_2d.py` - fast kd-style exact halfplane counter.
-- `src/visualize_partition_tree_2d.py` - simple visualization helper for the practical tree.
-- `docs/two_dimensional_partition_theorem_math_only.md` - math-only derivation.
-- `docs/efficient_partition_trees_calculation_notes.md` - calculation notes from Matousek's paper.
-- `docs/slides_lecture06_matousek_correspondence.md` - mapping from COMP5045 slides to paper content.
-- `examples/points_example.csv` - small point-set input.
-- `assets/partition_tree_example.png` - example visualization.
+## What "verified" means here
 
-## Quick Start
+Every precondition of the construction that can be checked at runtime is
+checked, and violations raise instead of degrading silently:
 
-Use Python 3.11+.
+- **Weighted cuttings** are built by the two-level Chazelle–Friedman scheme
+  (coarse ~t-line sample, then refinement of heavy cells only — a naive
+  t·log t sample provably cannot satisfy the O(t²) face budget) and are
+  **verified** against both cutting conditions: per-cell crossing weight
+  ≤ W/t, and face count within the pigeonhole budget nᵢ/s. Unverifiable
+  cuttings raise `CuttingError`.
+- **The test set Q** is the dual of *all* vertices of a fixed-scale
+  (1/(β√r))-cutting of P*, β = 0.25 fixed. If the cutting has more than r
+  vertices, the code raises `TestSetError` rather than shrinking the cutting
+  scale (which would silently invalidate the Test Set Lemma's O(n/(s√r))
+  conflict bound).
+- **Pigeonhole is an assert, not a search**: the face budget guarantees a
+  face with ≥ s remaining points exists.
+- **All geometry is exact rational arithmetic** (`fractions.Fraction`);
+  boundary contacts follow a general-position convention used consistently
+  in construction and verification.
+- **Queries are exact** and tested against brute force (CI runs this on
+  every push).
 
-Run the proof-skeleton demo. This uses only the Python standard library:
+The verification discipline caught real bugs during development: a crossing
+convention that made the cutting condition unsatisfiable, a naive sampling
+scheme that deadlocked against the face budget, and an adaptive β that
+quietly destroyed the theorem's cutting scale.
+
+## What this is not
+
+- **Not a certified implementation of the theorem.** Cuttings are built in a
+  bounding box that contains the arrangement's full combinatorial structure,
+  not the projective plane; the construction is Las Vegas and may raise for
+  small r or unlucky seeds; β√r ≤ 1 (r < 16) degenerates the test-set
+  cutting to a trivial box — the regime where the bound is vacuous anyway.
+- **Not a production spatial index.** For the practical counterpart, see
+  [`src/practical_partition_tree_2d.py`](src/practical_partition_tree_2d.py):
+  a float kd-style tree with the *same query skeleton* (classify cell →
+  prune / take whole / recurse) that answers the same queries exactly,
+  orders of magnitude faster — it just has no worst-case guarantee against
+  adversarial query lines. The pair is the point: what the guarantee costs,
+  and what industry gave up to go fast.
+
+## Quick start
+
+Python 3.11+, no dependencies for the core (matplotlib only for figures).
 
 ```bash
-python3 src/matousek_partition_tree.py 200 42
+# proof-skeleton demo: build at r=64, verify 60 queries vs brute force,
+# print measured crossing numbers (~20 s)
+python3 src/matousek_partition_tree.py 1200 42
+
+# practical kd-style baseline (instant)
+python3 src/practical_partition_tree_2d.py examples/points_example.csv \
+    --r 4 --leaf-size 2 --halfplane 1 0 -5
+
+# tests
+python3 -m pip install pytest && python3 -m pytest tests/ -v
+
+# reproduce the constants table + scaling plot
+python3 -m pip install matplotlib
+python3 benchmarks/measure_crossings.py 1200 7 --plot assets/crossing_scaling.png
+
+# regenerate the figure above
+python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 ```
 
-Expected behavior:
+## Repository layout
 
-- builds a recursive tree,
-- prints root group sizes,
-- checks 60 random halfplane queries against brute force,
-- prints empirical root-level crossing counts.
+| Path | What |
+|---|---|
+| `src/matousek_partition_tree.py` | the verified proof-skeleton construction + tree + queries |
+| `src/practical_partition_tree_2d.py` | fast kd-style baseline, same query interface |
+| `src/visualize_matousek.py` | generates the partition figure from the verified code |
+| `src/visualize_partition_tree_2d.py` | visualization helper for the practical tree |
+| `benchmarks/measure_crossings.py` | K_Q / crossing-number measurement (the table above) |
+| `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
+| `docs/` | math-only derivation of the 2D theorem, calculation notes on Matoušek's paper, COMP5045 lecture correspondence |
 
-Run the practical kd-style baseline:
+## Theory in one paragraph
 
-```bash
-python3 src/practical_partition_tree_2d.py examples/points_example.csv --r 4 --leaf-size 2 --groups-out groups_example.json --halfplane 1 0 -5
-```
-
-Install plotting dependency only if you want visualization:
-
-```bash
-python3 -m pip install -r requirements.txt
-```
-
-Generate a visualization:
-
-```bash
-python3 src/visualize_partition_tree_2d.py examples/points_example.csv groups_example.json --out partition_tree_example.png --halfplane 1 0 -5
-```
-
-## Theory Summary
-
-For a finite planar point set:
-
-$$
-P\subset\mathbb R^2
-$$
-
-and group-size parameter:
-
-$$
-s
-$$
-
-set:
-
-$$
-r=\frac ns
-$$
-
-The 2D partition theorem constructs a simplicial partition whose line-crossing number is:
-
-$$
-O(\sqrt r)
-$$
-
-The implementation exposes the proof mechanics behind that statement, especially:
-
-- point-line duality,
-- cuttings,
-- finite test set,
-- exponential reweighting,
-- weighted-cutting recurrence.
-
-## Why It Is Slow
-
-The proof-skeleton implementation is slow because it repeatedly:
-
-- constructs line arrangements,
-- clips exact rational polygons,
-- verifies weighted cutting constraints,
-- refines heavy cells,
-- rebuilds cuttings round by round.
-
-This is expected. The purpose is transparency and proof correspondence, not throughput.
-
-## Project Positioning
-
-Use this wording in a resume or report:
-
-> Implemented a verified proof-skeleton of the 2D Matousek partition-tree construction for halfplane range counting, including dual test-set construction, weighted cuttings, exponential reweighting, and exact query verification against brute force.
-
-Avoid claiming:
-
-> Production implementation of Matousek's theorem.
+Given n points and group size s (r = n/s), the theorem builds groups of size
+[s, 2s), each inside a triangle, such that every line crosses only O(√r)
+triangles. Construction: dualize points to lines; the vertices of a
+(1/√r)-cutting of the dual, dualized back, form ≤ r *test lines* Q such that
+controlling Q controls all lines (any line is "sandwiched" by 3 test lines).
+Groups are then peeled off round by round: each test line carries weight
+2^(number of times crossed so far), and each round takes a ≥ s-point face
+from a *weighted* cutting — expensive (often-crossed) lines are avoided by
+construction, and a potential argument turns slow total-weight growth into
+K_Q = O(log|Q| + √r). Full derivation with proofs:
+[`docs/two_dimensional_partition_theorem_math_only.md`](docs/two_dimensional_partition_theorem_math_only.md).
 
 ## Citation
 
-Jiří Matoušek, **Efficient Partition Trees**, *Discrete & Computational Geometry* 8, 315-334, 1992.
+Jiří Matoušek, **Efficient Partition Trees**, *Discrete & Computational
+Geometry* 8, 315–334, 1992.
+
+Bernard Chazelle, Joel Friedman, **A deterministic view of random sampling
+and its use in geometry**, *Combinatorica* 10, 229–249, 1990 (the two-level
+cutting construction).
