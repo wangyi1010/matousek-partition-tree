@@ -1,8 +1,2 @@
 __pycache__/
 *.pyc
-.DS_Store
-.venv/
-venv/
-groups_example.json
-partition_tree_example.png
-
