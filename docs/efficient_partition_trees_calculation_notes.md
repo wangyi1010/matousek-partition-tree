@@ -20,7 +20,7 @@ $$
 - A simplicial partition is a collection:
 
 $$
-\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+\Pi=\lbrace (P_1,\Delta_1),\ldots,(P_m,\Delta_m) \rbrace
 $$
 
 where the sets $`P_i`$ partition P, and each relatively open simplex $`\Delta_i`$ contains $`P_i`$.
@@ -57,7 +57,7 @@ $$
 For a set H of n hyperplanes and a cutting $`\Xi`$, define:
 
 $$
-H_\Delta=\{h\in H:h\text{ intersects the interior of }\Delta\}
+H_\Delta=\lbrace h\in H:h\text{ intersects the interior of }\Delta \rbrace
 $$
 
 A cutting $`\Xi`$ is an epsilon-cutting if:
@@ -103,7 +103,7 @@ The paper sketches the standard two-level cutting algorithm:
 3. For each sample simplex $`\Delta`$, compute:
 
 $$
-H_\Delta=\{h\in H:h\text{ intersects }\Delta\}
+H_\Delta=\lbrace h\in H:h\text{ intersects }\Delta \rbrace
 $$
 
 4. Define:
@@ -210,7 +210,7 @@ then set the last class to all remaining points and terminate.
 For q in Q, let:
 
 $$
-x_i(q)=\#\{\Delta_1,\ldots,\Delta_i\text{ crossed by }q\}
+x_i(q)=\#\lbrace \Delta_1,\ldots,\Delta_i\text{ crossed by }q \rbrace
 $$
 
 Define weights:
@@ -270,7 +270,7 @@ Then continue.
 Let:
 
 $$
-Q_{i+1}=\{q\in Q:q\text{ crosses }\Delta_{i+1}\}
+Q_{i+1}=\lbrace q\in Q:q\text{ crosses }\Delta_{i+1} \rbrace
 $$
 
 For q in $`Q_{i+1}`$, the weight doubles. For all other q, the weight stays the same.
@@ -278,22 +278,19 @@ For q in $`Q_{i+1}`$, the weight doubles. For all other q, the weight stays the 
 Therefore:
 
 $$
-w_{i+1}(Q)
-=w_i(Q)-w_i(Q_{i+1})+2w_i(Q_{i+1})
+w_{i+1}(Q) =w_i(Q)-w_i(Q_{i+1})+2w_i(Q_{i+1})
 $$
 
 so:
 
 $$
-w_{i+1}(Q)
-=w_i(Q)+w_i(Q_{i+1})
+w_{i+1}(Q) =w_i(Q)+w_i(Q_{i+1})
 $$
 
 and:
 
 $$
-w_{i+1}(Q)
-=w_i(Q)\left(1+\frac{w_i(Q_{i+1})}{w_i(Q)}\right)
+w_{i+1}(Q) =w_i(Q)\left(1+\frac{w_i(Q_{i+1})}{w_i(Q)}\right)
 $$
 
 Because $`\Delta_{i+1}`$ is a face of a weighted $`(1/t_i)`$-cutting:
@@ -307,9 +304,7 @@ For full-dimensional faces this is exactly the cutting guarantee. For lower-dime
 Thus:
 
 $$
-w_{i+1}(Q)
-\le
-w_i(Q)\left(1+\frac{1}{t_i}\right)
+w_{i+1}(Q) \le w_i(Q)\left(1+\frac{1}{t_i}\right)
 $$
 
 Using:
@@ -321,9 +316,7 @@ $$
 we get:
 
 $$
-\frac{1}{t_i}
-<
-\frac{1}{c}\left(\frac{s}{n_i}\right)^{1/d}
+\frac{1}{t_i} < \frac{1}{c}\left(\frac{s}{n_i}\right)^{1/d}
 $$
 
 In nonterminal rounds exactly s points are removed, so:
@@ -353,17 +346,13 @@ $$
 so:
 
 $$
-\left(\frac{s}{n_i}\right)^{1/d}
-=
-\frac{1}{(r-i)^{1/d}}
+\left(\frac{s}{n_i}\right)^{1/d} = \frac{1}{(r-i)^{1/d}}
 $$
 
 Iterating the weight inequality:
 
 $$
-w_m(Q)
-\le
-|Q|\prod_{i=0}^{m-1}\left(1+\frac{1}{c(r-i)^{1/d}}\right)
+w_m(Q) \le |Q|\prod_{i=0}^{m-1}\left(1+\frac{1}{c(r-i)^{1/d}}\right)
 $$
 
 Taking logarithms and using:
@@ -375,35 +364,25 @@ $$
 gives:
 
 $$
-\log w_m(Q)
-\le
-\log |Q|
-+
-\frac{1}{c}\sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}}
+\log w_m(Q) \le \log |Q| + \frac{1}{c}\sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}}
 $$
 
 Rewrite the sum by $`j=r-i`$:
 
 $$
-\sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}}
-\le
-\sum_{j=1}^{r}\frac{1}{j^{1/d}}
+\sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}} \le \sum_{j=1}^{r}\frac{1}{j^{1/d}}
 $$
 
 Bound by integral:
 
 $$
-\sum_{j=1}^{r}j^{-1/d}
-=
-O(r^{1-1/d})
+\sum_{j=1}^{r}j^{-1/d} = O(r^{1-1/d})
 $$
 
 Therefore:
 
 $$
-\log w_m(Q)
-=
-O(\log |Q|+r^{1-1/d})
+\log w_m(Q) = O(\log |Q|+r^{1-1/d})
 $$
 
 If a hyperplane q has final crossing number x, then:
@@ -421,9 +400,7 @@ $$
 we get:
 
 $$
-x\le \log_2 w_m(Q)
-=
-O(\log |Q|+r^{1-1/d})
+x\le \log_2 w_m(Q) = O(\log |Q|+r^{1-1/d})
 $$
 
 This proves Lemma 3.2.
@@ -442,17 +419,13 @@ Output:
 A set Q of at most r hyperplanes such that if a simplicial partition has all classes of size at least s, and if:
 
 $$
-x_0=\max_{q\in Q}\operatorname{cr}_\Pi(q)
+x_0=\max_{q\in Q}\mathrm{cr}_\Pi(q)
 $$
 
 then every hyperplane h has crossing number:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-(d+1)x_0
-+
-O\left(\frac{n}{s r^{1/d}}\right)
+\mathrm{cr}_\Pi(h) \le (d+1)x_0 + O\left(\frac{n}{s r^{1/d}}\right)
 $$
 
 ### Construction of Q
@@ -546,11 +519,7 @@ $$
 Therefore:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-(d+1)x_0
-+
-O\left(\frac{n}{s r^{1/d}}\right)
+\mathrm{cr}_\Pi(h) \le (d+1)x_0 + O\left(\frac{n}{s r^{1/d}}\right)
 $$
 
 This is the Test Set Lemma.
@@ -568,9 +537,7 @@ Then use Lemma 3.2 on this Q.
 For every q in Q:
 
 $$
-\operatorname{cr}_\Pi(q)
-=
-O(r^{1-1/d}+\log |Q|)
+\mathrm{cr}_\Pi(q) = O(r^{1-1/d}+\log |Q|)
 $$
 
 Since:
@@ -600,11 +567,7 @@ $$
 Now apply Lemma 3.3:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-(d+1)O(r^{1-1/d})
-+
-O\left(\frac{n}{s r^{1/d}}\right)
+\mathrm{cr}_\Pi(h) \le (d+1)O(r^{1-1/d}) + O\left(\frac{n}{s r^{1/d}}\right)
 $$
 
 Since:
@@ -616,19 +579,13 @@ $$
 we have:
 
 $$
-\frac{n}{s r^{1/d}}
-=
-\frac{r}{r^{1/d}}
-=
-r^{1-1/d}
+\frac{n}{s r^{1/d}} = \frac{r}{r^{1/d}} = r^{1-1/d}
 $$
 
 Therefore:
 
 $$
-\operatorname{cr}_\Pi(h)
-=
-O(r^{1-1/d})
+\mathrm{cr}_\Pi(h) = O(r^{1-1/d})
 $$
 
 for every hyperplane h.
@@ -684,9 +641,7 @@ $$
 the average crossing number of a hyperplane in Q is:
 
 $$
-\Omega\left(\frac{r}{r^{1/d}}\right)
-=
-\Omega(r^{1-1/d})
+\Omega\left(\frac{r}{r^{1/d}}\right) = \Omega(r^{1-1/d})
 $$
 
 Thus the upper bound is asymptotically tight.
@@ -775,9 +730,7 @@ $$
 The combined crossing number is bounded by a constant times:
 
 $$
-C^2 r_1^{1-1/d}r_2^{1-1/d}
-=
-O((r_1r_2)^{1-1/d})
+C^2 r_1^{1-1/d}r_2^{1-1/d} = O((r_1r_2)^{1-1/d})
 $$
 
 The paper writes the resulting multiplicative loss as:
@@ -803,15 +756,13 @@ $$
 Each iteration loses a constant factor, so the total loss is:
 
 $$
-(2C)^D
-=
-r^{\log(2C)/\log r_0}
+(2C)^D = r^{\log(2C)/\log r_0}
 $$
 
 Choose $`r_0`$ large enough so:
 
 $$
-\frac{\log(2C)}{\log r_0}<\delta
+\frac{\log(2C)}{\log r_0}< \delta
 $$
 
 Then final crossing number:
@@ -831,23 +782,13 @@ $$
 An epsilon-approximation A for P with respect to simplices satisfies:
 
 $$
-\left|
-\frac{|A\cap\sigma|}{|A|}
--
-\frac{|P\cap\sigma|}{|P|}
-\right|
-<\varepsilon
+\left| \frac{|A\cap\sigma|}{|A|} - \frac{|P\cap\sigma|}{|P|} \right| < \varepsilon
 $$
 
 Weighted form:
 
 $$
-\left|
-\frac{w(A\cap\sigma)}{w(A)}
--
-\frac{|P\cap\sigma|}{|P|}
-\right|
-<\varepsilon
+\left| \frac{w(A\cap\sigma)}{w(A)} - \frac{|P\cap\sigma|}{|P|} \right| < \varepsilon
 $$
 
 ## Observation 4.1
@@ -855,7 +796,7 @@ $$
 Given a simplicial partition:
 
 $$
-\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+\Pi=\lbrace (P_1,\Delta_1),\ldots,(P_m,\Delta_m) \rbrace
 $$
 
 with:
@@ -881,7 +822,7 @@ $$
 Let:
 
 $$
-A=\{a_1,\ldots,a_m\}
+A=\lbrace a_1,\ldots,a_m \rbrace
 $$
 
 For a query simplex $`\sigma`$, the representative count differs from the true count only for partition simplices crossed by the boundary of $`\sigma`$.
@@ -1007,11 +948,7 @@ $$
 Using Theorem 2.1:
 
 $$
-O(N_A r^{d-1})
-=
-O(r^{d+\delta}r^{d-1})
-=
-O(r^{2d+\delta-1})
+O(N_A r^{d-1}) = O(r^{d+\delta}r^{d-1}) = O(r^{2d+\delta-1})
 $$
 
 Total:
@@ -1023,13 +960,13 @@ $$
 If:
 
 $$
-r<n^{1/(2d+\delta-1)}
+r< n^{1/(2d+\delta-1)}
 $$
 
 then:
 
 $$
-r^{2d+\delta-1}<n
+r^{2d+\delta-1}< n
 $$
 
 so total time is:
@@ -1047,7 +984,7 @@ Given:
 - parameter r satisfying:
 
 $$
-r<n^\alpha
+r< n^\alpha
 $$
 
 for sufficiently small $`\alpha=\alpha(C)`$.
@@ -1105,9 +1042,7 @@ $$
 Choose t as a sufficiently large power of r and choose $`\alpha`$ small enough so:
 
 $$
-O\left(t+n t^{-1/d+\delta}\right)
-\le
-O\left(\frac{n}{r^C}\right)
+O\left(t+n t^{-1/d+\delta}\right) \le O\left(\frac{n}{r^C}\right)
 $$
 
 ## Lemma 4.6: Fast Partition for Small r
@@ -1115,7 +1050,7 @@ $$
 If:
 
 $$
-r<n^\alpha
+r< n^\alpha
 $$
 
 for sufficiently small fixed $`\alpha>0`$, then the exact Partition Theorem partition can be constructed in:
@@ -1211,9 +1146,7 @@ Each iteration loses a constant factor in crossing number.
 Total multiplicative loss:
 
 $$
-2^{O(\log\log n)}
-=
-(\log n)^{O(1)}
+2^{O(\log\log n)} = (\log n)^{O(1)}
 $$
 
 Result:
@@ -1284,10 +1217,7 @@ Calculation:
 Choose intermediate parameter:
 
 $$
-r_1=
-\left\lfloor
-\frac{r^{1+1/(2(d-1))}}{n^{1/(2(d-1))}}
-\right\rfloor
+r_1= \left\lfloor \frac{r^{1+1/(2(d-1))}}{n^{1/(2(d-1))}} \right\rfloor
 $$
 
 Compute a $`(1/r_1)`$-cutting of H and conflict lists $`H_\Delta`$.
@@ -1385,11 +1315,7 @@ $$
 and:
 
 $$
-T(n)
-\le
-O(n^{1-1/d})
-+
-O(n^{(1-1/d)^2})T(n^{1/d})
+T(n) \le O(n^{1-1/d}) + O(n^{(1-1/d)^2})T(n^{1/d})
 $$
 
 The solution is:
@@ -1437,7 +1363,7 @@ Combine partition tree with a fast simplex range searching structure.
 For storage parameter m satisfying:
 
 $$
-n<m<n^d
+n< m< n^d
 $$
 
 preprocessing and space:
@@ -1558,13 +1484,7 @@ For each class $`P_i`$, store a structure for the remaining $`(k-1)`$-tuples.
 Query recurrence:
 
 $$
-T_k(n)
-\le
-O(r)
-+
-O(r^{1-1/d})T_k(s)
-+
-O(r)T_{k-1}\left(\frac{2n}{r}\right)
+T_k(n) \le O(r) + O(r^{1-1/d})T_k(s) + O(r)T_{k-1}\left(\frac{2n}{r}\right)
 $$
 
 with:
@@ -1576,17 +1496,13 @@ $$
 Using induction:
 
 $$
-T_{k-1}(n)
-=
-O(n^{1-1/d}\exp(C'_{k-1}\sqrt{\log n}))
+T_{k-1}(n) = O(n^{1-1/d}\exp(C'_{k-1}\sqrt{\log n}))
 $$
 
 The recurrence gives:
 
 $$
-T_k(n)
-=
-O(n^{1-1/d}\exp(C'_k\sqrt{\log n}))
+T_k(n) = O(n^{1-1/d}\exp(C'_k\sqrt{\log n}))
 $$
 
 ## Lemma 6.3: Reporting Segments Crossing a Hyperplane

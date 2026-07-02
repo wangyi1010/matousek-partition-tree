@@ -5,13 +5,13 @@
 Input:
 
 $$
-P=\{p_1,\ldots,p_n\}\subset\mathbb R^2
+P=\lbrace p_1,\ldots,p_n \rbrace\subset\mathbb R^2
 $$
 
 Choose:
 
 $$
-2\le s<n
+2\le s< n
 $$
 
 Set:
@@ -23,7 +23,7 @@ $$
 Construct:
 
 $$
-\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+\Pi=\lbrace (P_1,\Delta_1),\ldots,(P_m,\Delta_m) \rbrace
 $$
 
 such that:
@@ -47,21 +47,19 @@ $$
 and:
 
 $$
-\operatorname{cr}(\Pi)=O(\sqrt r)
+\mathrm{cr}(\Pi)=O(\sqrt r)
 $$
 
 For a line h:
 
 $$
-\operatorname{cr}_\Pi(h)
-=
-|\{i:h\text{ crosses }\Delta_i\}|
+\mathrm{cr}_\Pi(h) = |\lbrace i:h\text{ crosses }\Delta_i \rbrace|
 $$
 
 and:
 
 $$
-\operatorname{cr}(\Pi)=\max_h\operatorname{cr}_\Pi(h)
+\mathrm{cr}(\Pi)=\max_h\mathrm{cr}_\Pi(h)
 $$
 
 ## Cutting Inputs
@@ -97,7 +95,7 @@ $$
 where:
 
 $$
-Q(C)=\{q\in Q:q\text{ crosses }C\}
+Q(C)=\lbrace q\in Q:q\text{ crosses }C \rbrace
 $$
 
 In 2D, for some absolute constant A:
@@ -127,9 +125,7 @@ $$
 Above-below:
 
 $$
-p\text{ above }\ell
-\Longleftrightarrow
-\ell^*\text{ above }p^*
+p\text{ above }\ell \Longleftrightarrow \ell^*\text{ above }p^*
 $$
 
 Verification:
@@ -149,9 +145,7 @@ $$
 Then:
 
 $$
-p\text{ above }\ell
-\Longleftrightarrow
-v>au-b
+p\text{ above }\ell \Longleftrightarrow v>au-b
 $$
 
 Also:
@@ -181,7 +175,7 @@ $$
 Dualize P:
 
 $$
-P^*=\{p_1^*,\ldots,p_n^*\}
+P^*=\lbrace p_1^*,\ldots,p_n^* \rbrace
 $$
 
 Choose:
@@ -201,7 +195,7 @@ $$
 the vertex set:
 
 $$
-V=\{v_1,\ldots,v_N\}
+V=\lbrace v_1,\ldots,v_N \rbrace
 $$
 
 satisfies:
@@ -219,7 +213,7 @@ $$
 Define:
 
 $$
-Q=\{q_1,\ldots,q_N\}
+Q=\lbrace q_1,\ldots,q_N \rbrace
 $$
 
 Thus:
@@ -279,18 +273,13 @@ $$
 Define:
 
 $$
-K_Q=\max_{q\in Q}\operatorname{cr}_\Pi(q)
+K_Q=\max_{q\in Q}\mathrm{cr}_\Pi(q)
 $$
 
 Claim:
 
 $$
-\forall h,\quad
-\operatorname{cr}_\Pi(h)
-\le
-3K_Q
-+
-O\left(\frac{n}{s\sqrt r}\right)
+\forall h,\quad \mathrm{cr}_\Pi(h) \le 3K_Q + O\left(\frac{n}{s\sqrt r}\right)
 $$
 
 Proof skeleton:
@@ -304,13 +293,13 @@ $$
 Let A be the triangular dual cutting cell with:
 
 $$
-h^*\in\operatorname{int}(A)
+h^*\in\mathrm{int}(A)
 $$
 
 Let:
 
 $$
-A=\operatorname{conv}\{v_1,v_2,v_3\}
+A=\mathrm{conv}\lbrace v_1,v_2,v_3 \rbrace
 $$
 
 Define:
@@ -334,25 +323,21 @@ $$
 Detailed count:
 
 $$
-\operatorname{cr}_\Pi(q_1)\le K_Q
+\mathrm{cr}_\Pi(q_1)\le K_Q
 $$
 
 $$
-\operatorname{cr}_\Pi(q_2)\le K_Q
+\mathrm{cr}_\Pi(q_2)\le K_Q
 $$
 
 $$
-\operatorname{cr}_\Pi(q_3)\le K_Q
+\mathrm{cr}_\Pi(q_3)\le K_Q
 $$
 
 Therefore:
 
 $$
-|\{\Delta_i:\Delta_i\text{ crossed by at least one of }q_1,q_2,q_3\}|
-\le
-K_Q+K_Q+K_Q
-=
-3K_Q
+|\lbrace \Delta_i:\Delta_i\text{ crossed by at least one of }q_1,q_2,q_3 \rbrace| \le K_Q+K_Q+K_Q = 3K_Q
 $$
 
 Call $`\Delta_i`$ bad if:
@@ -370,9 +355,7 @@ $$
 Key geometric implication:
 
 $$
-\Delta_i\text{ bad and }p\in P_i
-\Longrightarrow
-p^*\cap A\ne\varnothing
+\Delta_i\text{ bad and }p\in P_i \Longrightarrow p^*\cap A\ne\varnothing
 $$
 
 Reason in sign language:
@@ -382,13 +365,13 @@ The three primal lines $`q_1,q_2,q_3`$ decompose the primal plane into sign cell
 The all-above cell is:
 
 $$
-\{x:x\text{ is above }q_1,q_2,q_3\}
+\lbrace x:x\text{ is above }q_1,q_2,q_3 \rbrace
 $$
 
 The all-below cell is:
 
 $$
-\{x:x\text{ is below }q_1,q_2,q_3\}
+\lbrace x:x\text{ is below }q_1,q_2,q_3 \rbrace
 $$
 
 If h crossed the all-above cell, there would be:
@@ -460,7 +443,7 @@ are not all on the same side of $`p^*`$.
 If $`p^*`$ did not cross A, then the convex triangle:
 
 $$
-A=\operatorname{conv}\{v_1,v_2,v_3\}
+A=\mathrm{conv}\lbrace v_1,v_2,v_3 \rbrace
 $$
 
 would lie entirely on one side of $`p^*`$, so all three vertices would be on the same side.
@@ -474,25 +457,19 @@ $$
 Equivalently:
 
 $$
-\text{bad primal simplex}
-\Longrightarrow
-\text{dual conflict with }A
+\text{bad primal simplex} \Longrightarrow \text{dual conflict with }A
 $$
 
 Since A is a $`(1/\sqrt r)`$-cutting cell:
 
 $$
-|\{p\in P:p^*\cap A\ne\varnothing\}|
-=
-O\left(\frac n{\sqrt r}\right)
+|\lbrace p\in P:p^*\cap A\ne\varnothing \rbrace| = O\left(\frac n{\sqrt r}\right)
 $$
 
 Bad groups are disjoint and each has at least s points, so:
 
 $$
-\#\text{bad simplices}
-\le
-O\left(\frac{n/\sqrt r}{s}\right)
+\#\text{bad simplices} \le O\left(\frac{n/\sqrt r}{s}\right)
 $$
 
 Detailed division:
@@ -532,19 +509,13 @@ $$
 Thus:
 
 $$
-\#\text{bad simplices}
-=
-O\left(\frac{n}{s\sqrt r}\right)
+\#\text{bad simplices} = O\left(\frac{n}{s\sqrt r}\right)
 $$
 
 Therefore:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-3K_Q
-+
-O\left(\frac{n}{s\sqrt r}\right)
+\mathrm{cr}_\Pi(h) \le 3K_Q + O\left(\frac{n}{s\sqrt r}\right)
 $$
 
 Since:
@@ -556,19 +527,13 @@ $$
 we have:
 
 $$
-\frac{n}{s\sqrt r}
-=
-\frac r{\sqrt r}
-=
-\sqrt r
+\frac{n}{s\sqrt r} = \frac r{\sqrt r} = \sqrt r
 $$
 
 So:
 
 $$
-K_Q=O(\sqrt r)
-\Longrightarrow
-\operatorname{cr}_\Pi(h)=O(\sqrt r)
+K_Q=O(\sqrt r) \Longrightarrow \mathrm{cr}_\Pi(h)=O(\sqrt r)
 $$
 
 ## Step 3: Construct $`\Pi`$ for Fixed Q
@@ -586,7 +551,7 @@ $$
 For test line q:
 
 $$
-\kappa_i(q)=|\{j\le i:q\text{ crosses }\Delta_j\}|
+\kappa_i(q)=|\lbrace j\le i:q\text{ crosses }\Delta_j \rbrace|
 $$
 
 Define exponential weight:
@@ -644,11 +609,7 @@ $$
 Then:
 
 $$
-At_i^2
-=
-A\alpha^2\frac{n_i}{s}
-\le
-\frac{n_i}{s}
+At_i^2 = A\alpha^2\frac{n_i}{s} \le \frac{n_i}{s}
 $$
 
 Known and chosen quantities in this formula:
@@ -706,9 +667,7 @@ $$
 Pigeonhole:
 
 $$
-\exists F_{i+1}
-\quad
-|P^{(i)}\cap F_{i+1}|\ge s
+\exists F_{i+1} \quad |P^{(i)}\cap F_{i+1}|\ge s
 $$
 
 Set:
@@ -740,7 +699,7 @@ $$
 Let:
 
 $$
-Q_{i+1}=\{q\in Q:q\text{ crosses }\Delta_{i+1}\}
+Q_{i+1}=\lbrace q\in Q:q\text{ crosses }\Delta_{i+1} \rbrace
 $$
 
 For $`q\in Q_{i+1}`$:
@@ -758,9 +717,7 @@ $$
 Therefore:
 
 $$
-W_{i+1}
-=
-W_i+w_i(Q_{i+1})
+W_{i+1} = W_i+w_i(Q_{i+1})
 $$
 
 No-step derivation:
@@ -774,11 +731,7 @@ $$
 Then:
 
 $$
-W_{i+1}
-=
-\sum_{q\notin Q_{i+1}}w_{i+1}(q)
-+
-\sum_{q\in Q_{i+1}}w_{i+1}(q)
+W_{i+1} = \sum_{q\notin Q_{i+1}}w_{i+1}(q) + \sum_{q\in Q_{i+1}}w_{i+1}(q)
 $$
 
 For noncrossing lines:
@@ -796,21 +749,13 @@ $$
 So:
 
 $$
-W_{i+1}
-=
-\sum_{q\notin Q_{i+1}}w_i(q)
-+
-\sum_{q\in Q_{i+1}}2w_i(q)
+W_{i+1} = \sum_{q\notin Q_{i+1}}w_i(q) + \sum_{q\in Q_{i+1}}2w_i(q)
 $$
 
 Rewrite:
 
 $$
-W_{i+1}
-=
-\sum_{q\in Q}w_i(q)
-+
-\sum_{q\in Q_{i+1}}w_i(q)
+W_{i+1} = \sum_{q\in Q}w_i(q) + \sum_{q\in Q_{i+1}}w_i(q)
 $$
 
 Therefore:
@@ -828,9 +773,7 @@ $$
 Hence:
 
 $$
-W_{i+1}
-\le
-W_i\left(1+\frac1{t_i}\right)
+W_{i+1} \le W_i\left(1+\frac1{t_i}\right)
 $$
 
 In nonterminal rounds:
@@ -860,9 +803,7 @@ $$
 Therefore:
 
 $$
-W_{i+1}
-\le
-W_i\left(1+\frac{C}{\sqrt{r-i}}\right)
+W_{i+1} \le W_i\left(1+\frac{C}{\sqrt{r-i}}\right)
 $$
 
 The terminal round can at most double every weight:
@@ -884,22 +825,13 @@ $$
 we get:
 
 $$
-W_m
-\le
-2|Q|
-\prod_{i=0}^{L-1}
-\left(1+\frac{C}{\sqrt{r-i}}\right)
+W_m \le 2|Q| \prod_{i=0}^{L-1} \left(1+\frac{C}{\sqrt{r-i}}\right)
 $$
 
 Taking logs:
 
 $$
-\log W_m
-\le
-O(1)+\log |Q|
-+
-\sum_{i=0}^{L-1}
-\log\left(1+\frac{C}{\sqrt{r-i}}\right)
+\log W_m \le O(1)+\log |Q| + \sum_{i=0}^{L-1} \log\left(1+\frac{C}{\sqrt{r-i}}\right)
 $$
 
 Using:
@@ -911,35 +843,25 @@ $$
 gives:
 
 $$
-\log W_m
-\le
-O(1)+\log |Q|
-+
-C\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}}
+\log W_m \le O(1)+\log |Q| + C\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}}
 $$
 
 Since:
 
 $$
-\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}}
-\le
-\sum_{j=1}^{r}\frac1{\sqrt j}
+\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}} \le \sum_{j=1}^{r}\frac1{\sqrt j}
 $$
 
 and:
 
 $$
-\sum_{j=1}^{r}j^{-1/2}
-\le
-1+\int_1^r x^{-1/2}\,dx
+\sum_{j=1}^{r}j^{-1/2} \le 1+\int_1^r x^{-1/2}\,dx
 $$
 
 with:
 
 $$
-\int_1^r x^{-1/2}\,dx
-=
-2(\sqrt r-1)
+\int_1^r x^{-1/2}\,dx = 2(\sqrt r-1)
 $$
 
 we obtain:
@@ -951,9 +873,7 @@ $$
 Therefore:
 
 $$
-\log W_m
-=
-O(\log |Q|+\sqrt r)
+\log W_m = O(\log |Q|+\sqrt r)
 $$
 
 ## Step 6: Bound $`K_Q`$
@@ -991,11 +911,7 @@ $$
 Therefore:
 
 $$
-K_Q
-=
-\max_{q\in Q}\kappa_m(q)
-=
-O(\log |Q|+\sqrt r)
+K_Q = \max_{q\in Q}\kappa_m(q) = O(\log |Q|+\sqrt r)
 $$
 
 Since:
@@ -1047,11 +963,7 @@ $$
 From the Test Set Lemma:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-3K_Q
-+
-O\left(\frac{n}{s\sqrt r}\right)
+\mathrm{cr}_\Pi(h) \le 3K_Q + O\left(\frac{n}{s\sqrt r}\right)
 $$
 
 Substitute:
@@ -1063,23 +975,19 @@ $$
 and:
 
 $$
-\frac{n}{s\sqrt r}
-=
-\sqrt r
+\frac{n}{s\sqrt r} = \sqrt r
 $$
 
 Then:
 
 $$
-\operatorname{cr}_\Pi(h)
-\le
-3O(\sqrt r)+O(\sqrt r)
+\mathrm{cr}_\Pi(h) \le 3O(\sqrt r)+O(\sqrt r)
 $$
 
 so:
 
 $$
-\operatorname{cr}_\Pi(h)=O(\sqrt r)
+\mathrm{cr}_\Pi(h)=O(\sqrt r)
 $$
 
 for every line h.
@@ -1087,7 +995,7 @@ for every line h.
 Therefore:
 
 $$
-\operatorname{cr}(\Pi)=O(\sqrt r)
+\mathrm{cr}(\Pi)=O(\sqrt r)
 $$
 
 ## Final Statement
@@ -1101,7 +1009,7 @@ $$
 and every:
 
 $$
-2\le s<n
+2\le s< n
 $$
 
 with:
@@ -1113,7 +1021,7 @@ $$
 there exists a simplicial partition:
 
 $$
-\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+\Pi=\lbrace (P_1,\Delta_1),\ldots,(P_m,\Delta_m) \rbrace
 $$
 
 such that:
@@ -1125,5 +1033,5 @@ $$
 and:
 
 $$
-\operatorname{cr}(\Pi)=O(\sqrt r)
+\mathrm{cr}(\Pi)=O(\sqrt r)
 $$

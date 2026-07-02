@@ -49,7 +49,7 @@ This is the bound shown on slide 89.
 The paper defines a simplicial partition of P as:
 
 $$
-\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+\Pi=\lbrace (P_1,\Delta_1),\ldots,(P_m,\Delta_m) \rbrace
 $$
 
 where:
@@ -61,7 +61,7 @@ where:
 In dimension 2, a simplex is a triangle, so the slide writes:
 
 $$
-F(P)=\{(P_1,t_1),\ldots,(P_r,t_r)\}
+F(P)=\lbrace (P_1,t_1),\ldots,(P_r,t_r) \rbrace
 $$
 
 where each $`t_i`$ is a triangle containing $`P_i`$.
@@ -87,13 +87,13 @@ In the plane, hyperplanes are lines.
 So the crossing number of a line h relative to $`\Pi`$ is:
 
 $$
-\#\{\Delta_i:h\text{ crosses }\Delta_i\}
+\#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
 $$
 
 The crossing number of the whole partition is:
 
 $$
-\max_h \#\{\Delta_i:h\text{ crosses }\Delta_i\}
+\max_h \#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
 $$
 
 This is exactly slide 91:
@@ -125,7 +125,7 @@ $$
 So the paper condition implies:
 
 $$
-|P_i|<\frac{2n}{r}
+|P_i|< \frac{2n}{r}
 $$
 
 The slide calls a simplicial r-partition fine if:
@@ -143,7 +143,7 @@ The paper states in fixed dimension d:
 Given P, n, and s with:
 
 $$
-2\le s<n
+2\le s< n
 $$
 
 set:
@@ -179,8 +179,7 @@ $$
 This is the theorem stated on slide 92:
 
 $$
-\text{fine simplicial partition of size }r
-\text{ and crossing number }O(\sqrt r)
+\text{fine simplicial partition of size }r \text{ and crossing number }O(\sqrt r)
 $$
 
 ## 6. Paper Construction Time Used by Slides
@@ -301,9 +300,7 @@ $$
 Simplify the recursive term:
 
 $$
-\sqrt r\cdot (2n/r)^{1/2+\varepsilon}
-=
-r^{1/2}\cdot 2^{1/2+\varepsilon}n^{1/2+\varepsilon}r^{-1/2-\varepsilon}
+\sqrt r\cdot (2n/r)^{1/2+\varepsilon} = r^{1/2}\cdot 2^{1/2+\varepsilon}n^{1/2+\varepsilon}r^{-1/2-\varepsilon}
 $$
 
 Cancel the powers of r:
@@ -315,9 +312,7 @@ $$
 So:
 
 $$
-\sqrt r\cdot (2n/r)^{1/2+\varepsilon}
-=
-2^{1/2+\varepsilon}r^{-\varepsilon}n^{1/2+\varepsilon}
+\sqrt r\cdot (2n/r)^{1/2+\varepsilon} = 2^{1/2+\varepsilon}r^{-\varepsilon}n^{1/2+\varepsilon}
 $$
 
 Thus:
