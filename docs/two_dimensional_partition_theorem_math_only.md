@@ -1,0 +1,1129 @@
+# Two-Dimensional Partition Theorem: Math-Only Derivation
+
+## Goal
+
+Input:
+
+$$
+P=\{p_1,\ldots,p_n\}\subset\mathbb R^2
+$$
+
+Choose:
+
+$$
+2\le s<n
+$$
+
+Set:
+
+$$
+r=\frac ns
+$$
+
+Construct:
+
+$$
+\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+$$
+
+such that:
+
+$$
+P_i\cap P_j=\varnothing\quad(i\ne j)
+$$
+
+$$
+\bigcup_iP_i=P
+$$
+
+$$
+P_i\subseteq\Delta_i
+$$
+
+$$
+s\le |P_i|<2s
+$$
+
+and:
+
+$$
+\operatorname{cr}(\Pi)=O(\sqrt r)
+$$
+
+For a line h:
+
+$$
+\operatorname{cr}_\Pi(h)
+=
+|\{i:h\text{ crosses }\Delta_i\}|
+$$
+
+and:
+
+$$
+\operatorname{cr}(\Pi)=\max_h\operatorname{cr}_\Pi(h)
+$$
+
+## Cutting Inputs
+
+For n lines in the plane, a \((1/t)\)-cutting has:
+
+$$
+O(t^2)
+$$
+
+cells, and each cell is crossed by:
+
+$$
+O\left(\frac nt\right)
+$$
+
+lines.
+
+Weighted version:
+
+For weighted lines \((Q,w)\), define:
+
+$$
+W=\sum_{q\in Q}w(q)
+$$
+
+A weighted \((1/t)\)-cutting satisfies for every cell C:
+
+$$
+\sum_{q\in Q(C)}w(q)\le \frac Wt
+$$
+
+where:
+
+$$
+Q(C)=\{q\in Q:q\text{ crosses }C\}
+$$
+
+In 2D, for some absolute constant A:
+
+$$
+\#\text{faces}\le At^2
+$$
+
+## Step 1: Build the Finite Test Set Q
+
+Use duality:
+
+$$
+p=(a,b)\longleftrightarrow p^*:y=ax-b
+$$
+
+$$
+\ell:y=ax-b\longleftrightarrow \ell^*=(a,b)
+$$
+
+Incidence:
+
+$$
+p\in\ell\Longleftrightarrow \ell^*\in p^*
+$$
+
+Above-below:
+
+$$
+p\text{ above }\ell
+\Longleftrightarrow
+\ell^*\text{ above }p^*
+$$
+
+Verification:
+
+Let:
+
+$$
+p=(u,v)
+$$
+
+and:
+
+$$
+\ell:y=ax-b
+$$
+
+Then:
+
+$$
+p\text{ above }\ell
+\Longleftrightarrow
+v>au-b
+$$
+
+Also:
+
+$$
+p^*:y=ux-v
+$$
+
+and:
+
+$$
+\ell^*=(a,b)
+$$
+
+The dual point \(\ell^*\) is above the dual line \(p^*\) iff:
+
+$$
+b>ua-v
+$$
+
+which is equivalent to:
+
+$$
+v>au-b
+$$
+
+Dualize P:
+
+$$
+P^*=\{p_1^*,\ldots,p_n^*\}
+$$
+
+Choose:
+
+$$
+t=\beta\sqrt r
+$$
+
+with beta small enough that the cutting has at most r vertices.
+
+Since:
+
+$$
+O(t^2)=O(\beta^2r)\le r
+$$
+
+the vertex set:
+
+$$
+V=\{v_1,\ldots,v_N\}
+$$
+
+satisfies:
+
+$$
+N\le r
+$$
+
+Dualize vertices back:
+
+$$
+q_j=v_j^*
+$$
+
+Define:
+
+$$
+Q=\{q_1,\ldots,q_N\}
+$$
+
+Thus:
+
+$$
+|Q|=N\le r
+$$
+
+Important object distinction:
+
+$$
+R\subseteq P^*
+$$
+
+is the sampled set of about t dual lines used to build the cutting.
+
+$$
+V
+$$
+
+is the set of cutting vertices, which are points in the dual plane.
+
+$$
+Q=V^*
+$$
+
+is a new set of primal lines.
+
+Thus:
+
+$$
+Q\not\subseteq P^*
+$$
+
+The cutting parameter is:
+
+$$
+t=\Theta(\sqrt r)
+$$
+
+so every dual cutting cell A is crossed by at most:
+
+$$
+O\left(\frac n{\sqrt r}\right)
+$$
+
+dual lines from \(P^*\).
+
+## Step 2: Test Set Lemma
+
+Assume \(\Pi\) is any simplicial partition with:
+
+$$
+|P_i|\ge s
+$$
+
+Define:
+
+$$
+K_Q=\max_{q\in Q}\operatorname{cr}_\Pi(q)
+$$
+
+Claim:
+
+$$
+\forall h,\quad
+\operatorname{cr}_\Pi(h)
+\le
+3K_Q
++
+O\left(\frac{n}{s\sqrt r}\right)
+$$
+
+Proof skeleton:
+
+Take any nonvertical line h. Its dual point is:
+
+$$
+h^*
+$$
+
+Let A be the triangular dual cutting cell with:
+
+$$
+h^*\in\operatorname{int}(A)
+$$
+
+Let:
+
+$$
+A=\operatorname{conv}\{v_1,v_2,v_3\}
+$$
+
+Define:
+
+$$
+q_j=v_j^*
+$$
+
+Then:
+
+$$
+q_1,q_2,q_3\in Q
+$$
+
+Cells crossed by at least one of \(q_1,q_2,q_3\) are at most:
+
+$$
+3K_Q
+$$
+
+Detailed count:
+
+$$
+\operatorname{cr}_\Pi(q_1)\le K_Q
+$$
+
+$$
+\operatorname{cr}_\Pi(q_2)\le K_Q
+$$
+
+$$
+\operatorname{cr}_\Pi(q_3)\le K_Q
+$$
+
+Therefore:
+
+$$
+|\{\Delta_i:\Delta_i\text{ crossed by at least one of }q_1,q_2,q_3\}|
+\le
+K_Q+K_Q+K_Q
+=
+3K_Q
+$$
+
+Call \(\Delta_i\) bad if:
+
+$$
+h\text{ crosses }\Delta_i
+$$
+
+but:
+
+$$
+q_1,q_2,q_3\text{ do not cross }\Delta_i
+$$
+
+Key geometric implication:
+
+$$
+\Delta_i\text{ bad and }p\in P_i
+\Longrightarrow
+p^*\cap A\ne\varnothing
+$$
+
+Reason in sign language:
+
+The three primal lines \(q_1,q_2,q_3\) decompose the primal plane into sign cells.
+
+The all-above cell is:
+
+$$
+\{x:x\text{ is above }q_1,q_2,q_3\}
+$$
+
+The all-below cell is:
+
+$$
+\{x:x\text{ is below }q_1,q_2,q_3\}
+$$
+
+If h crossed the all-above cell, there would be:
+
+$$
+x\in h
+$$
+
+with:
+
+$$
+x\text{ above }q_1,q_2,q_3
+$$
+
+By duality:
+
+$$
+q_1^*=v_1,\quad q_2^*=v_2,\quad q_3^*=v_3
+$$
+
+all lie on the same side of \(x^*\).
+
+Since:
+
+$$
+x\in h
+$$
+
+we have:
+
+$$
+h^*\in x^*
+$$
+
+So \(x^*\) is a line through an interior point of triangle A.
+
+But a line through an interior point of a triangle cannot put all three triangle vertices on the same side. Contradiction.
+
+The same applies to the all-below cell.
+
+Therefore every sign cell crossed by h is mixed-sign.
+
+Now let:
+
+$$
+p\in P_i\subseteq\Delta_i
+$$
+
+where \(\Delta_i\) is bad.
+
+Because \(q_1,q_2,q_3\) do not cross \(\Delta_i\), the simplex \(\Delta_i\) lies inside one sign cell of their arrangement.
+
+Since h crosses \(\Delta_i\), that sign cell is crossed by h, hence is mixed-sign.
+
+So p has mixed signs relative to:
+
+$$
+q_1,q_2,q_3
+$$
+
+By above-below duality, the vertices:
+
+$$
+v_1,v_2,v_3
+$$
+
+are not all on the same side of \(p^*\).
+
+If \(p^*\) did not cross A, then the convex triangle:
+
+$$
+A=\operatorname{conv}\{v_1,v_2,v_3\}
+$$
+
+would lie entirely on one side of \(p^*\), so all three vertices would be on the same side.
+
+Contradiction. Thus:
+
+$$
+p^*\cap A\ne\varnothing
+$$
+
+Equivalently:
+
+$$
+\text{bad primal simplex}
+\Longrightarrow
+\text{dual conflict with }A
+$$
+
+Since A is a \((1/\sqrt r)\)-cutting cell:
+
+$$
+|\{p\in P:p^*\cap A\ne\varnothing\}|
+=
+O\left(\frac n{\sqrt r}\right)
+$$
+
+Bad groups are disjoint and each has at least s points, so:
+
+$$
+\#\text{bad simplices}
+\le
+O\left(\frac{n/\sqrt r}{s}\right)
+$$
+
+Detailed division:
+
+Let B be the number of bad simplices.
+
+Each bad simplex contributes at least s original points:
+
+$$
+|P_i|\ge s
+$$
+
+The bad groups are disjoint, so total bad points are at least:
+
+$$
+Bs
+$$
+
+But the dual conflict bound gives total bad points at most:
+
+$$
+O\left(\frac n{\sqrt r}\right)
+$$
+
+Thus:
+
+$$
+Bs\le O\left(\frac n{\sqrt r}\right)
+$$
+
+and:
+
+$$
+B\le O\left(\frac n{s\sqrt r}\right)
+$$
+
+Thus:
+
+$$
+\#\text{bad simplices}
+=
+O\left(\frac{n}{s\sqrt r}\right)
+$$
+
+Therefore:
+
+$$
+\operatorname{cr}_\Pi(h)
+\le
+3K_Q
++
+O\left(\frac{n}{s\sqrt r}\right)
+$$
+
+Since:
+
+$$
+r=\frac ns
+$$
+
+we have:
+
+$$
+\frac{n}{s\sqrt r}
+=
+\frac r{\sqrt r}
+=
+\sqrt r
+$$
+
+So:
+
+$$
+K_Q=O(\sqrt r)
+\Longrightarrow
+\operatorname{cr}_\Pi(h)=O(\sqrt r)
+$$
+
+## Step 3: Construct \(\Pi\) for Fixed Q
+
+At round i:
+
+$$
+P^{(i)}=P\setminus(P_1\cup\cdots\cup P_i)
+$$
+
+$$
+n_i=|P^{(i)}|
+$$
+
+For test line q:
+
+$$
+\kappa_i(q)=|\{j\le i:q\text{ crosses }\Delta_j\}|
+$$
+
+Define exponential weight:
+
+$$
+w_i(q)=2^{\kappa_i(q)}
+$$
+
+Total weight:
+
+$$
+W_i=\sum_{q\in Q}w_i(q)
+$$
+
+Initially:
+
+$$
+\kappa_0(q)=0
+$$
+
+$$
+w_0(q)=1
+$$
+
+$$
+W_0=|Q|
+$$
+
+If:
+
+$$
+n_i<2s
+$$
+
+make the terminal group:
+
+$$
+P_{i+1}=P^{(i)}
+$$
+
+and stop.
+
+Otherwise choose:
+
+$$
+t_i=\alpha\sqrt{\frac{n_i}{s}}
+$$
+
+where alpha is small enough that:
+
+$$
+A\alpha^2\le 1
+$$
+
+Then:
+
+$$
+At_i^2
+=
+A\alpha^2\frac{n_i}{s}
+\le
+\frac{n_i}{s}
+$$
+
+Known and chosen quantities in this formula:
+
+$$
+n_i=|P^{(i)}|
+$$
+
+is known at the start of round i.
+
+$$
+s
+$$
+
+is the fixed group-size parameter.
+
+$$
+A
+$$
+
+is the absolute constant from the weighted cutting theorem.
+
+$$
+t_i
+$$
+
+is chosen from these quantities.
+
+The reason is the pigeonhole constraint:
+
+$$
+\#\text{faces}\le At_i^2\le \frac{n_i}{s}
+$$
+
+so the average number of remaining points per face is at least:
+
+$$
+\frac{n_i}{n_i/s}=s
+$$
+
+Build a weighted \((1/t_i)\)-cutting for \((Q,w_i)\).
+
+For every face C:
+
+$$
+w_i(Q(C))\le \frac{W_i}{t_i}
+$$
+
+Number of faces:
+
+$$
+\le \frac{n_i}{s}
+$$
+
+Pigeonhole:
+
+$$
+\exists F_{i+1}
+\quad
+|P^{(i)}\cap F_{i+1}|\ge s
+$$
+
+Set:
+
+$$
+\Delta_{i+1}=F_{i+1}
+$$
+
+Choose:
+
+$$
+P_{i+1}\subseteq P^{(i)}\cap\Delta_{i+1}
+$$
+
+with:
+
+$$
+|P_{i+1}|=s
+$$
+
+Remove:
+
+$$
+P^{(i+1)}=P^{(i)}\setminus P_{i+1}
+$$
+
+## Step 4: Weight Recurrence
+
+Let:
+
+$$
+Q_{i+1}=\{q\in Q:q\text{ crosses }\Delta_{i+1}\}
+$$
+
+For \(q\in Q_{i+1}\):
+
+$$
+w_{i+1}(q)=2w_i(q)
+$$
+
+For \(q\notin Q_{i+1}\):
+
+$$
+w_{i+1}(q)=w_i(q)
+$$
+
+Therefore:
+
+$$
+W_{i+1}
+=
+W_i+w_i(Q_{i+1})
+$$
+
+No-step derivation:
+
+Split Q into crossing and noncrossing test lines:
+
+$$
+Q=Q_{i+1}\cup(Q\setminus Q_{i+1})
+$$
+
+Then:
+
+$$
+W_{i+1}
+=
+\sum_{q\notin Q_{i+1}}w_{i+1}(q)
++
+\sum_{q\in Q_{i+1}}w_{i+1}(q)
+$$
+
+For noncrossing lines:
+
+$$
+w_{i+1}(q)=w_i(q)
+$$
+
+For crossing lines:
+
+$$
+w_{i+1}(q)=2w_i(q)
+$$
+
+So:
+
+$$
+W_{i+1}
+=
+\sum_{q\notin Q_{i+1}}w_i(q)
++
+\sum_{q\in Q_{i+1}}2w_i(q)
+$$
+
+Rewrite:
+
+$$
+W_{i+1}
+=
+\sum_{q\in Q}w_i(q)
++
+\sum_{q\in Q_{i+1}}w_i(q)
+$$
+
+Therefore:
+
+$$
+W_{i+1}=W_i+w_i(Q_{i+1})
+$$
+
+Since \(\Delta_{i+1}\) is a cutting face:
+
+$$
+w_i(Q_{i+1})\le \frac{W_i}{t_i}
+$$
+
+Hence:
+
+$$
+W_{i+1}
+\le
+W_i\left(1+\frac1{t_i}\right)
+$$
+
+In nonterminal rounds:
+
+$$
+n_i=n-is
+$$
+
+and:
+
+$$
+\frac{n_i}{s}=r-i
+$$
+
+Thus:
+
+$$
+t_i=\Theta(\sqrt{r-i})
+$$
+
+so for a constant C:
+
+$$
+\frac1{t_i}\le \frac{C}{\sqrt{r-i}}
+$$
+
+Therefore:
+
+$$
+W_{i+1}
+\le
+W_i\left(1+\frac{C}{\sqrt{r-i}}\right)
+$$
+
+The terminal round can at most double every weight:
+
+$$
+W_m\le 2W_L
+$$
+
+where L is the number of nonterminal rounds.
+
+## Step 5: Product Estimate
+
+Since:
+
+$$
+L\le r
+$$
+
+we get:
+
+$$
+W_m
+\le
+2|Q|
+\prod_{i=0}^{L-1}
+\left(1+\frac{C}{\sqrt{r-i}}\right)
+$$
+
+Taking logs:
+
+$$
+\log W_m
+\le
+O(1)+\log |Q|
++
+\sum_{i=0}^{L-1}
+\log\left(1+\frac{C}{\sqrt{r-i}}\right)
+$$
+
+Using:
+
+$$
+\log(1+x)\le x
+$$
+
+gives:
+
+$$
+\log W_m
+\le
+O(1)+\log |Q|
++
+C\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}}
+$$
+
+Since:
+
+$$
+\sum_{i=0}^{L-1}\frac1{\sqrt{r-i}}
+\le
+\sum_{j=1}^{r}\frac1{\sqrt j}
+$$
+
+and:
+
+$$
+\sum_{j=1}^{r}j^{-1/2}
+\le
+1+\int_1^r x^{-1/2}\,dx
+$$
+
+with:
+
+$$
+\int_1^r x^{-1/2}\,dx
+=
+2(\sqrt r-1)
+$$
+
+we obtain:
+
+$$
+\sum_{j=1}^{r}j^{-1/2}=O(\sqrt r)
+$$
+
+Therefore:
+
+$$
+\log W_m
+=
+O(\log |Q|+\sqrt r)
+$$
+
+## Step 6: Bound \(K_Q\)
+
+For any \(q\in Q\):
+
+$$
+w_m(q)=2^{\kappa_m(q)}
+$$
+
+and:
+
+$$
+w_m(q)\le W_m
+$$
+
+Thus:
+
+$$
+2^{\kappa_m(q)}\le W_m
+$$
+
+Taking logs:
+
+$$
+\kappa_m(q)\le \log_2 W_m
+$$
+
+Hence:
+
+$$
+\kappa_m(q)=O(\log |Q|+\sqrt r)
+$$
+
+Therefore:
+
+$$
+K_Q
+=
+\max_{q\in Q}\kappa_m(q)
+=
+O(\log |Q|+\sqrt r)
+$$
+
+Since:
+
+$$
+|Q|\le r
+$$
+
+we have:
+
+$$
+\log |Q|\le \log r
+$$
+
+and:
+
+$$
+\log r=O(\sqrt r)
+$$
+
+Thus:
+
+$$
+K_Q=O(\sqrt r)
+$$
+
+Here:
+
+$$
+\kappa_i(q)
+$$
+
+is cumulative for one q up to round i.
+
+$$
+K_Q
+$$
+
+is the final maximum over all q in Q.
+
+At the end:
+
+$$
+K_Q=\max_{q\in Q}\kappa_m(q)
+$$
+
+## Step 7: Extend from Q to All Lines
+
+From the Test Set Lemma:
+
+$$
+\operatorname{cr}_\Pi(h)
+\le
+3K_Q
++
+O\left(\frac{n}{s\sqrt r}\right)
+$$
+
+Substitute:
+
+$$
+K_Q=O(\sqrt r)
+$$
+
+and:
+
+$$
+\frac{n}{s\sqrt r}
+=
+\sqrt r
+$$
+
+Then:
+
+$$
+\operatorname{cr}_\Pi(h)
+\le
+3O(\sqrt r)+O(\sqrt r)
+$$
+
+so:
+
+$$
+\operatorname{cr}_\Pi(h)=O(\sqrt r)
+$$
+
+for every line h.
+
+Therefore:
+
+$$
+\operatorname{cr}(\Pi)=O(\sqrt r)
+$$
+
+## Final Statement
+
+For every finite point set:
+
+$$
+P\subset\mathbb R^2
+$$
+
+and every:
+
+$$
+2\le s<n
+$$
+
+with:
+
+$$
+r=\frac ns
+$$
+
+there exists a simplicial partition:
+
+$$
+\Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
+$$
+
+such that:
+
+$$
+s\le |P_i|<2s
+$$
+
+and:
+
+$$
+\operatorname{cr}(\Pi)=O(\sqrt r)
+$$
