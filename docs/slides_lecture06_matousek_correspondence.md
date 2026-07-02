@@ -54,9 +54,9 @@ $$
 
 where:
 
-- the sets \(P_i\) are pairwise disjoint,
+- the sets $`P_i`$ are pairwise disjoint,
 - together they form a partition of P,
-- each \(\Delta_i\) is a relatively open simplex containing \(P_i\).
+- each $`\Delta_i`$ is a relatively open simplex containing $`P_i`$.
 
 In dimension 2, a simplex is a triangle, so the slide writes:
 
@@ -64,13 +64,13 @@ $$
 F(P)=\{(P_1,t_1),\ldots,(P_r,t_r)\}
 $$
 
-where each \(t_i\) is a triangle containing \(P_i\).
+where each $`t_i`$ is a triangle containing $`P_i`$.
 
 The paper allows lower-dimensional simplices for degenerate point sets, but the slides only use the planar triangle picture.
 
 ## 3. Paper Definition: Crossing Number
 
-The paper says a hyperplane h crosses a simplex \(\Delta\) if:
+The paper says a hyperplane h crosses a simplex $`\Delta`$ if:
 
 $$
 h\cap\Delta\ne\emptyset
@@ -84,7 +84,7 @@ $$
 
 In the plane, hyperplanes are lines.
 
-So the crossing number of a line h relative to \(\Pi\) is:
+So the crossing number of a line h relative to $`\Pi`$ is:
 
 $$
 \#\{\Delta_i:h\text{ crosses }\Delta_i\}
@@ -152,7 +152,7 @@ $$
 r=\frac ns
 $$
 
-Then there exists a simplicial partition \(\Pi\) such that:
+Then there exists a simplicial partition $`\Pi`$ such that:
 
 $$
 s\le |P_i|<2s
@@ -211,7 +211,7 @@ $$
 O(n^{1+\delta})
 $$
 
-Renaming the paper's fixed positive constant \(\delta\) as the lecture's \(\varepsilon\), in 2D this becomes:
+Renaming the paper's fixed positive constant $`\delta`$ as the lecture's $`\varepsilon`$, in 2D this becomes:
 
 $$
 O(n^{1+\varepsilon})
@@ -267,8 +267,8 @@ The first term r is the cost of scanning all r children at the current node.
 
 The recursive term appears because:
 
-- at most \(\sqrt r\) children are crossed,
-- each crossed child has at most \(2n/r\) points.
+- at most $`\sqrt r`$ children are crossed,
+- each crossed child has at most $`2n/r`$ points.
 
 ## 8. Solving the Slide Query Recurrence
 
@@ -278,7 +278,7 @@ $$
 T(n)=r+\sqrt r\cdot T(2n/r)
 $$
 
-The slides choose r as a sufficiently large constant depending only on \(\varepsilon\). Therefore r does not grow with n.
+The slides choose r as a sufficiently large constant depending only on $`\varepsilon`$. Therefore r does not grow with n.
 
 We prove:
 
@@ -362,7 +362,7 @@ This is slide 95.
 
 At a node with m points, the partition creates r children.
 
-Because r is chosen as a constant depending only on \(\varepsilon\), each node has constant branching factor.
+Because r is chosen as a constant depending only on $`\varepsilon`$, each node has constant branching factor.
 
 Each point belongs to exactly one child at each level.
 
@@ -392,7 +392,7 @@ $$
 O(m^{1+\varepsilon})
 $$
 
-for a node with m points, with r treated as a constant depending on \(\varepsilon\).
+for a node with m points, with r treated as a constant depending on $`\varepsilon`$.
 
 Since the children form a partition of the node's points and each child has at most a constant fraction of the parent points, the total over the recursive tree remains:
 
@@ -402,13 +402,13 @@ $$
 
 Intuition:
 
-At one level with subproblem sizes \(m_1,\ldots,m_k\), where:
+At one level with subproblem sizes $`m_1,\ldots,m_k`$, where:
 
 $$
 \sum_j m_j=n
 $$
 
-and each \(m_j\) is a constant fraction of its parent, the superlinear exponent makes the geometric decay dominate across levels.
+and each $`m_j`$ is a constant fraction of its parent, the superlinear exponent makes the geometric decay dominate across levels.
 
 Hence total preprocessing:
 
@@ -437,7 +437,7 @@ $$
 T(n)=r+\sqrt r\cdot T(2n/r)
 $$
 
-- sufficiently large constant r depending on \(\varepsilon\),
+- sufficiently large constant r depending on $`\varepsilon`$,
 
 gives:
 

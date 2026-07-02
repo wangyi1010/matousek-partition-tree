@@ -23,7 +23,7 @@ $$
 \Pi=\{(P_1,\Delta_1),\ldots,(P_m,\Delta_m)\}
 $$
 
-where the sets \(P_i\) partition P, and each relatively open simplex \(\Delta_i\) contains \(P_i\).
+where the sets $`P_i`$ partition P, and each relatively open simplex $`\Delta_i`$ contains $`P_i`$.
 
 - The class-size condition is:
 
@@ -37,7 +37,7 @@ $$
 s\le |P_i|<2s
 $$
 
-- A hyperplane h crosses a simplex \(\Delta\) if:
+- A hyperplane h crosses a simplex $`\Delta`$ if:
 
 $$
 h\cap \Delta\ne\emptyset
@@ -49,24 +49,24 @@ $$
 \Delta\not\subset h
 $$
 
-- The crossing number of h relative to \(\Pi\) is the number of simplices \(\Delta_i\) crossed by h.
-- The crossing number of \(\Pi\) is the maximum over all hyperplanes h.
+- The crossing number of h relative to $`\Pi`$ is the number of simplices $`\Delta_i`$ crossed by h.
+- The crossing number of $`\Pi`$ is the maximum over all hyperplanes h.
 
 ## Section 2: Cuttings
 
-For a set H of n hyperplanes and a cutting \(\Xi\), define:
+For a set H of n hyperplanes and a cutting $`\Xi`$, define:
 
 $$
 H_\Delta=\{h\in H:h\text{ intersects the interior of }\Delta\}
 $$
 
-A cutting \(\Xi\) is an epsilon-cutting if:
+A cutting $`\Xi`$ is an epsilon-cutting if:
 
 $$
 |H_\Delta|\le \varepsilon n
 $$
 
-for every simplex \(\Delta\in\Xi\).
+for every simplex $`\Delta\in\Xi`$.
 
 Weighted version:
 
@@ -100,7 +100,7 @@ The paper sketches the standard two-level cutting algorithm:
 
 1. Sample r hyperplanes from H.
 2. Build and triangulate the arrangement of the sample.
-3. For each sample simplex \(\Delta\), compute:
+3. For each sample simplex $`\Delta`$, compute:
 
 $$
 H_\Delta=\{h\in H:h\text{ intersects }\Delta\}
@@ -118,7 +118,7 @@ $$
 C t_\Delta \log t_\Delta
 $$
 
-hyperplanes from \(H_\Delta\), add the boundary hyperplanes of \(\Delta\), triangulate inside \(\Delta\), and combine all resulting simplices.
+hyperplanes from $`H_\Delta`$, add the boundary hyperplanes of $`\Delta`$, triangulate inside $`\Delta`$, and combine all resulting simplices.
 
 The resulting cutting has expected optimal size:
 
@@ -142,7 +142,7 @@ $$
 r=\frac{n}{s}
 $$
 
-there exists a simplicial partition \(\Pi\) with:
+there exists a simplicial partition $`\Pi`$ with:
 
 $$
 s\le |P_i|<2s
@@ -165,7 +165,7 @@ Input:
 
 Output:
 
-A simplicial partition \(\Pi\) with:
+A simplicial partition $`\Pi`$ with:
 
 $$
 s\le |P_i|<2s
@@ -227,7 +227,7 @@ $$
 w_i(Q)=\sum_{q\in Q}w_i(q)
 $$
 
-Choose \(t_i\) as large as possible such that there exists a weighted \((1/t_i)\)-cutting for \((Q,w_i)\) whose simplices have at most:
+Choose $`t_i`$ as large as possible such that there exists a weighted $`(1/t_i)`$-cutting for $`(Q,w_i)`$ whose simplices have at most:
 
 $$
 \frac{n_i}{s}
@@ -235,7 +235,7 @@ $$
 
 faces of all dimensions in total.
 
-By Theorem 2.1, since a cutting with parameter \(t_i\) has \(O(t_i^d)\) faces, \(t_i\) can satisfy:
+By Theorem 2.1, since a cutting with parameter $`t_i`$ has $`O(t_i^d)`$ faces, $`t_i`$ can satisfy:
 
 $$
 t_i>c\left(\frac{n_i}{s}\right)^{1/d}
@@ -249,7 +249,7 @@ $$
 \frac{n_i}{s}
 $$
 
-faces and there are \(n_i\) remaining points, the pigeonhole principle gives a relatively open face containing at least s remaining points.
+faces and there are $`n_i`$ remaining points, the pigeonhole principle gives a relatively open face containing at least s remaining points.
 
 Choose such a face as:
 
@@ -273,7 +273,7 @@ $$
 Q_{i+1}=\{q\in Q:q\text{ crosses }\Delta_{i+1}\}
 $$
 
-For q in \(Q_{i+1}\), the weight doubles. For all other q, the weight stays the same.
+For q in $`Q_{i+1}`$, the weight doubles. For all other q, the weight stays the same.
 
 Therefore:
 
@@ -296,7 +296,7 @@ w_{i+1}(Q)
 =w_i(Q)\left(1+\frac{w_i(Q_{i+1})}{w_i(Q)}\right)
 $$
 
-Because \(\Delta_{i+1}\) is a face of a weighted \((1/t_i)\)-cutting:
+Because $`\Delta_{i+1}`$ is a face of a weighted $`(1/t_i)`$-cutting:
 
 $$
 w_i(Q_{i+1})\le \frac{w_i(Q)}{t_i}
@@ -382,7 +382,7 @@ $$
 \frac{1}{c}\sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}}
 $$
 
-Rewrite the sum by \(j=r-i\):
+Rewrite the sum by $`j=r-i`$:
 
 $$
 \sum_{i=0}^{m-1}\frac{1}{(r-i)^{1/d}}
@@ -471,7 +471,7 @@ $$
 t=\Omega(r^{1/d})
 $$
 
-The cutting has \(O(t^d)\) vertices. Choose the constant so that the total number of vertices is at most r.
+The cutting has $`O(t^d)`$ vertices. Choose the constant so that the total number of vertices is at most r.
 
 Let V be the set of vertices of the cutting. Define:
 
@@ -497,7 +497,7 @@ $$
 
 lies in some cutting simplex A.
 
-Let G be the set of vertices of A. A d-dimensional simplex has \(d+1\) vertices.
+Let G be the set of vertices of A. A d-dimensional simplex has $`d+1`$ vertices.
 
 The dual hyperplanes:
 
@@ -507,19 +507,19 @@ $$
 
 belong to Q.
 
-Each of these \(d+1\) test hyperplanes crosses at most \(x_0\) simplices of \(\Pi\), so simplices crossed by at least one of them are at most:
+Each of these $`d+1`$ test hyperplanes crosses at most $`x_0`$ simplices of $`\Pi`$, so simplices crossed by at least one of them are at most:
 
 $$
 (d+1)x_0
 $$
 
-Now consider simplices crossed by h but by no hyperplane in \(\mathcal{D}(G)\).
+Now consider simplices crossed by h but by no hyperplane in $`\mathcal{D}(G)`$.
 
-Such simplices must be completely contained in the zone of h in the arrangement of \(\mathcal{D}(G)\).
+Such simplices must be completely contained in the zone of h in the arrangement of $`\mathcal{D}(G)`$.
 
-By duality, any point p of P lying in the interior of that zone has dual hyperplane \(\mathcal{D}(p)\) intersecting the interior of A.
+By duality, any point p of P lying in the interior of that zone has dual hyperplane $`\mathcal{D}(p)`$ intersecting the interior of A.
 
-Because A is a \((1/t)\)-cutting cell and:
+Because A is a $`(1/t)`$-cutting cell and:
 
 $$
 t=\Omega(r^{1/d})
@@ -657,7 +657,7 @@ $$
 
 cells.
 
-Place n points into clusters of at most \(s-1\) points each, with clusters in distinct cells of the arrangement of Q.
+Place n points into clusters of at most $`s-1`$ points each, with clusters in distinct cells of the arrangement of Q.
 
 In any simplicial partition with classes of size at least s, no class can be contained in one such cluster. Therefore every simplex must cross at least one hyperplane of Q.
 
@@ -744,7 +744,7 @@ $$
 O(n\log r)
 $$
 
-for fixed positive \(\delta\).
+for fixed positive $`\delta`$.
 
 ### Composition Calculation
 
@@ -792,7 +792,7 @@ $$
 r=\frac{n}{s_2}
 $$
 
-Repeat with a fixed constant reduction factor \(r_0\).
+Repeat with a fixed constant reduction factor $`r_0`$.
 
 Number of iterations:
 
@@ -808,7 +808,7 @@ $$
 r^{\log(2C)/\log r_0}
 $$
 
-Choose \(r_0\) large enough so:
+Choose $`r_0`$ large enough so:
 
 $$
 \frac{\log(2C)}{\log r_0}<\delta
@@ -884,9 +884,9 @@ $$
 A=\{a_1,\ldots,a_m\}
 $$
 
-For a query simplex \(\sigma\), the representative count differs from the true count only for partition simplices crossed by the boundary of \(\sigma\).
+For a query simplex $`\sigma`$, the representative count differs from the true count only for partition simplices crossed by the boundary of $`\sigma`$.
 
-A d-dimensional simplex has \(d+1\) bounding hyperplanes. Each boundary hyperplane crosses at most x partition simplices.
+A d-dimensional simplex has $`d+1`$ bounding hyperplanes. Each boundary hyperplane crosses at most x partition simplices.
 
 So at most:
 
@@ -922,7 +922,7 @@ $$
 
 ## Theorem 4.2
 
-Using Corollary 3.5 and Observation 4.1, compute a \((1/t)\)-approximation of size:
+Using Corollary 3.5 and Observation 4.1, compute a $`(1/t)`$-approximation of size:
 
 $$
 O(t^{d+\delta})
@@ -964,7 +964,7 @@ after absorbing constant-dimension exponent slack.
 
 For hyperplanes H, let A be an epsilon-approximation for H with respect to segments.
 
-If \(\Xi\) is an epsilon-prime cutting for weighted A, then \(\Xi\) is a:
+If $`\Xi`$ is an epsilon-prime cutting for weighted A, then $`\Xi`$ is a:
 
 $$
 d(\varepsilon+\varepsilon')
@@ -976,7 +976,7 @@ The factor d comes from reducing simplex-cell crossing control to segment-edge c
 
 ## Proposition 4.4
 
-Goal: compute a \((1/r)\)-cutting of size:
+Goal: compute a $`(1/r)`$-cutting of size:
 
 $$
 O(r^d)
@@ -984,7 +984,7 @@ $$
 
 for n hyperplanes.
 
-Step 1: compute a \((1/(2dr))\)-approximation of H of size:
+Step 1: compute a $`(1/(2dr))`$-approximation of H of size:
 
 $$
 O(r^{d+\delta})
@@ -996,7 +996,7 @@ $$
 O(n\log r)
 $$
 
-Step 2: compute a \((1/(2dr))\)-cutting for the approximation.
+Step 2: compute a $`(1/(2dr))`$-cutting for the approximation.
 
 The approximation size is:
 
@@ -1050,7 +1050,7 @@ $$
 r<n^\alpha
 $$
 
-for sufficiently small \(\alpha=\alpha(C)\).
+for sufficiently small $`\alpha=\alpha(C)`$.
 
 Build in:
 
@@ -1102,7 +1102,7 @@ $$
 O\left(t+n t^{-1/d+\delta}\right)
 $$
 
-Choose t as a sufficiently large power of r and choose \(\alpha\) small enough so:
+Choose t as a sufficiently large power of r and choose $`\alpha`$ small enough so:
 
 $$
 O\left(t+n t^{-1/d+\delta}\right)
@@ -1118,7 +1118,7 @@ $$
 r<n^\alpha
 $$
 
-for sufficiently small fixed \(\alpha>0\), then the exact Partition Theorem partition can be constructed in:
+for sufficiently small fixed $`\alpha>0`$, then the exact Partition Theorem partition can be constructed in:
 
 $$
 O(n\log r)
@@ -1154,7 +1154,7 @@ $$
 O(n\log r)
 $$
 
-for sufficiently small \(\alpha\).
+for sufficiently small $`\alpha`$.
 
 ## Theorem 4.7
 
@@ -1253,7 +1253,7 @@ O(n^{\delta'})
 $$
 
 - On small classes, use the polynomial-time exact construction from Theorem 3.1.
-- Choose \(\delta'\) small enough so total time is:
+- Choose $`\delta'`$ small enough so total time is:
 
 $$
 O(n^{1+\delta})
@@ -1267,7 +1267,7 @@ $$
 r\le n^{1-\delta}
 $$
 
-a \((1/r)\)-cutting of size:
+a $`(1/r)`$-cutting of size:
 
 $$
 O(r^d)
@@ -1290,15 +1290,15 @@ r_1=
 \right\rfloor
 $$
 
-Compute a \((1/r_1)\)-cutting of H and conflict lists \(H_\Delta\).
+Compute a $`(1/r_1)`$-cutting of H and conflict lists $`H_\Delta`$.
 
-Then for each cell \(\Delta\), compute a \((r_1/r)\)-cutting for:
+Then for each cell $`\Delta`$, compute a $`(r_1/r)`$-cutting for:
 
 $$
 H_\Delta\cup B_\Delta
 $$
 
-where \(B_\Delta\) are boundary hyperplanes of \(\Delta\).
+where $`B_\Delta`$ are boundary hyperplanes of $`\Delta`$.
 
 Balancing the top-level and refinement costs yields:
 
@@ -1553,7 +1553,7 @@ $$
 r=\frac{m}{s}=\exp(\sqrt{\log m})
 $$
 
-For each class \(P_i\), store a structure for the remaining \((k-1)\)-tuples.
+For each class $`P_i`$, store a structure for the remaining $`(k-1)`$-tuples.
 
 Query recurrence:
 
@@ -1845,7 +1845,7 @@ $$
 P=P_1\cup P_2
 $$
 
-and the answer on P combines answers on \(P_1\) and \(P_2\).
+and the answer on P combines answers on $`P_1`$ and $`P_2`$.
 
 Using the Bentley/Overmars dynamization method:
 

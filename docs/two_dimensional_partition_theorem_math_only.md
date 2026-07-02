@@ -66,7 +66,7 @@ $$
 
 ## Cutting Inputs
 
-For n lines in the plane, a \((1/t)\)-cutting has:
+For n lines in the plane, a $`(1/t)`$-cutting has:
 
 $$
 O(t^2)
@@ -82,13 +82,13 @@ lines.
 
 Weighted version:
 
-For weighted lines \((Q,w)\), define:
+For weighted lines $`(Q,w)`$, define:
 
 $$
 W=\sum_{q\in Q}w(q)
 $$
 
-A weighted \((1/t)\)-cutting satisfies for every cell C:
+A weighted $`(1/t)`$-cutting satisfies for every cell C:
 
 $$
 \sum_{q\in Q(C)}w(q)\le \frac Wt
@@ -166,7 +166,7 @@ $$
 \ell^*=(a,b)
 $$
 
-The dual point \(\ell^*\) is above the dual line \(p^*\) iff:
+The dual point $`\ell^*`$ is above the dual line $`p^*`$ iff:
 
 $$
 b>ua-v
@@ -266,11 +266,11 @@ $$
 O\left(\frac n{\sqrt r}\right)
 $$
 
-dual lines from \(P^*\).
+dual lines from $`P^*`$.
 
 ## Step 2: Test Set Lemma
 
-Assume \(\Pi\) is any simplicial partition with:
+Assume $`\Pi`$ is any simplicial partition with:
 
 $$
 |P_i|\ge s
@@ -325,7 +325,7 @@ $$
 q_1,q_2,q_3\in Q
 $$
 
-Cells crossed by at least one of \(q_1,q_2,q_3\) are at most:
+Cells crossed by at least one of $`q_1,q_2,q_3`$ are at most:
 
 $$
 3K_Q
@@ -355,7 +355,7 @@ K_Q+K_Q+K_Q
 3K_Q
 $$
 
-Call \(\Delta_i\) bad if:
+Call $`\Delta_i`$ bad if:
 
 $$
 h\text{ crosses }\Delta_i
@@ -377,7 +377,7 @@ $$
 
 Reason in sign language:
 
-The three primal lines \(q_1,q_2,q_3\) decompose the primal plane into sign cells.
+The three primal lines $`q_1,q_2,q_3`$ decompose the primal plane into sign cells.
 
 The all-above cell is:
 
@@ -409,7 +409,7 @@ $$
 q_1^*=v_1,\quad q_2^*=v_2,\quad q_3^*=v_3
 $$
 
-all lie on the same side of \(x^*\).
+all lie on the same side of $`x^*`$.
 
 Since:
 
@@ -423,7 +423,7 @@ $$
 h^*\in x^*
 $$
 
-So \(x^*\) is a line through an interior point of triangle A.
+So $`x^*`$ is a line through an interior point of triangle A.
 
 But a line through an interior point of a triangle cannot put all three triangle vertices on the same side. Contradiction.
 
@@ -437,11 +437,11 @@ $$
 p\in P_i\subseteq\Delta_i
 $$
 
-where \(\Delta_i\) is bad.
+where $`\Delta_i`$ is bad.
 
-Because \(q_1,q_2,q_3\) do not cross \(\Delta_i\), the simplex \(\Delta_i\) lies inside one sign cell of their arrangement.
+Because $`q_1,q_2,q_3`$ do not cross $`\Delta_i`$, the simplex $`\Delta_i`$ lies inside one sign cell of their arrangement.
 
-Since h crosses \(\Delta_i\), that sign cell is crossed by h, hence is mixed-sign.
+Since h crosses $`\Delta_i`$, that sign cell is crossed by h, hence is mixed-sign.
 
 So p has mixed signs relative to:
 
@@ -455,15 +455,15 @@ $$
 v_1,v_2,v_3
 $$
 
-are not all on the same side of \(p^*\).
+are not all on the same side of $`p^*`$.
 
-If \(p^*\) did not cross A, then the convex triangle:
+If $`p^*`$ did not cross A, then the convex triangle:
 
 $$
 A=\operatorname{conv}\{v_1,v_2,v_3\}
 $$
 
-would lie entirely on one side of \(p^*\), so all three vertices would be on the same side.
+would lie entirely on one side of $`p^*`$, so all three vertices would be on the same side.
 
 Contradiction. Thus:
 
@@ -479,7 +479,7 @@ $$
 \text{dual conflict with }A
 $$
 
-Since A is a \((1/\sqrt r)\)-cutting cell:
+Since A is a $`(1/\sqrt r)`$-cutting cell:
 
 $$
 |\{p\in P:p^*\cap A\ne\varnothing\}|
@@ -571,7 +571,7 @@ K_Q=O(\sqrt r)
 \operatorname{cr}_\Pi(h)=O(\sqrt r)
 $$
 
-## Step 3: Construct \(\Pi\) for Fixed Q
+## Step 3: Construct $`\Pi`$ for Fixed Q
 
 At round i:
 
@@ -689,7 +689,7 @@ $$
 \frac{n_i}{n_i/s}=s
 $$
 
-Build a weighted \((1/t_i)\)-cutting for \((Q,w_i)\).
+Build a weighted $`(1/t_i)`$-cutting for $`(Q,w_i)`$.
 
 For every face C:
 
@@ -743,13 +743,13 @@ $$
 Q_{i+1}=\{q\in Q:q\text{ crosses }\Delta_{i+1}\}
 $$
 
-For \(q\in Q_{i+1}\):
+For $`q\in Q_{i+1}`$:
 
 $$
 w_{i+1}(q)=2w_i(q)
 $$
 
-For \(q\notin Q_{i+1}\):
+For $`q\notin Q_{i+1}`$:
 
 $$
 w_{i+1}(q)=w_i(q)
@@ -819,7 +819,7 @@ $$
 W_{i+1}=W_i+w_i(Q_{i+1})
 $$
 
-Since \(\Delta_{i+1}\) is a cutting face:
+Since $`\Delta_{i+1}`$ is a cutting face:
 
 $$
 w_i(Q_{i+1})\le \frac{W_i}{t_i}
@@ -956,9 +956,9 @@ $$
 O(\log |Q|+\sqrt r)
 $$
 
-## Step 6: Bound \(K_Q\)
+## Step 6: Bound $`K_Q`$
 
-For any \(q\in Q\):
+For any $`q\in Q`$:
 
 $$
 w_m(q)=2^{\kappa_m(q)}
