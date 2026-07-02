@@ -210,7 +210,7 @@ then set the last class to all remaining points and terminate.
 For q in Q, let:
 
 $$
-x_i(q)=\#\lbrace \Delta_1,\ldots,\Delta_i\text{ crossed by }q \rbrace
+x_i(q)=\\#\lbrace \Delta_1,\ldots,\Delta_i\text{ crossed by }q \rbrace
 $$
 
 Define weights:
@@ -1407,13 +1407,13 @@ space.
 If weights can be subtracted:
 
 $$
-O(n^{1-1/d}2^{O(\log^* n)})
+O(n^{1-1/d}2^{O(\log^\ast  n)})
 $$
 
 For reporting:
 
 $$
-O(n^{1-1/d}2^{O(\log^* n)}+k)
+O(n^{1-1/d}2^{O(\log^\ast  n)}+k)
 $$
 
 ## Why Theorem 5.1 Has a Log Factor
@@ -1683,19 +1683,19 @@ $$
 Depth:
 
 $$
-D=O(\log^* n)
+D=O(\log^\ast  n)
 $$
 
 Thus query time:
 
 $$
-O(n^{1-1/d}2^{O(\log^* n)})
+O(n^{1-1/d}2^{O(\log^\ast  n)})
 $$
 
 For reporting, add output size:
 
 $$
-O(n^{1-1/d}2^{O(\log^* n)}+k)
+O(n^{1-1/d}2^{O(\log^\ast  n)}+k)
 $$
 
 ## Section 7: Dynamization

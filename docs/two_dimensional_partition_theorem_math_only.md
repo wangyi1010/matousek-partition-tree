@@ -101,7 +101,7 @@ $$
 In 2D, for some absolute constant A:
 
 $$
-\#\text{faces}\le At^2
+\\#\text{faces}\le At^2
 $$
 
 ## Step 1: Build the Finite Test Set Q
@@ -109,23 +109,23 @@ $$
 Use duality:
 
 $$
-p=(a,b)\longleftrightarrow p^*:y=ax-b
+p=(a,b)\longleftrightarrow p^\ast :y=ax-b
 $$
 
 $$
-\ell:y=ax-b\longleftrightarrow \ell^*=(a,b)
+\ell:y=ax-b\longleftrightarrow \ell^\ast =(a,b)
 $$
 
 Incidence:
 
 $$
-p\in\ell\Longleftrightarrow \ell^*\in p^*
+p\in\ell\Longleftrightarrow \ell^\ast \in p^\ast 
 $$
 
 Above-below:
 
 $$
-p\text{ above }\ell \Longleftrightarrow \ell^*\text{ above }p^*
+p\text{ above }\ell \Longleftrightarrow \ell^\ast \text{ above }p^\ast 
 $$
 
 Verification:
@@ -151,13 +151,13 @@ $$
 Also:
 
 $$
-p^*:y=ux-v
+p^\ast :y=ux-v
 $$
 
 and:
 
 $$
-\ell^*=(a,b)
+\ell^\ast =(a,b)
 $$
 
 The dual point $`\ell^*`$ is above the dual line $`p^*`$ iff:
@@ -175,7 +175,7 @@ $$
 Dualize P:
 
 $$
-P^*=\lbrace p_1^*,\ldots,p_n^* \rbrace
+P^\ast =\lbrace p_1^\ast ,\ldots,p_n^\ast  \rbrace
 $$
 
 Choose:
@@ -207,7 +207,7 @@ $$
 Dualize vertices back:
 
 $$
-q_j=v_j^*
+q_j=v_j^\ast 
 $$
 
 Define:
@@ -225,7 +225,7 @@ $$
 Important object distinction:
 
 $$
-R\subseteq P^*
+R\subseteq P^\ast 
 $$
 
 is the sampled set of about t dual lines used to build the cutting.
@@ -237,7 +237,7 @@ $$
 is the set of cutting vertices, which are points in the dual plane.
 
 $$
-Q=V^*
+Q=V^\ast 
 $$
 
 is a new set of primal lines.
@@ -245,7 +245,7 @@ is a new set of primal lines.
 Thus:
 
 $$
-Q\not\subseteq P^*
+Q\not\subseteq P^\ast 
 $$
 
 The cutting parameter is:
@@ -287,13 +287,13 @@ Proof skeleton:
 Take any nonvertical line h. Its dual point is:
 
 $$
-h^*
+h^\ast 
 $$
 
 Let A be the triangular dual cutting cell with:
 
 $$
-h^*\in\mathrm{int}(A)
+h^\ast \in\mathrm{int}(A)
 $$
 
 Let:
@@ -305,7 +305,7 @@ $$
 Define:
 
 $$
-q_j=v_j^*
+q_j=v_j^\ast 
 $$
 
 Then:
@@ -355,7 +355,7 @@ $$
 Key geometric implication:
 
 $$
-\Delta_i\text{ bad and }p\in P_i \Longrightarrow p^*\cap A\ne\varnothing
+\Delta_i\text{ bad and }p\in P_i \Longrightarrow p^\ast \cap A\ne\varnothing
 $$
 
 Reason in sign language:
@@ -389,7 +389,7 @@ $$
 By duality:
 
 $$
-q_1^*=v_1,\quad q_2^*=v_2,\quad q_3^*=v_3
+q_1^\ast =v_1,\quad q_2^\ast =v_2,\quad q_3^\ast =v_3
 $$
 
 all lie on the same side of $`x^*`$.
@@ -403,7 +403,7 @@ $$
 we have:
 
 $$
-h^*\in x^*
+h^\ast \in x^\ast 
 $$
 
 So $`x^*`$ is a line through an interior point of triangle A.
@@ -451,7 +451,7 @@ would lie entirely on one side of $`p^*`$, so all three vertices would be on the
 Contradiction. Thus:
 
 $$
-p^*\cap A\ne\varnothing
+p^\ast \cap A\ne\varnothing
 $$
 
 Equivalently:
@@ -463,13 +463,13 @@ $$
 Since A is a $`(1/\sqrt r)`$-cutting cell:
 
 $$
-|\lbrace p\in P:p^*\cap A\ne\varnothing \rbrace| = O\left(\frac n{\sqrt r}\right)
+|\lbrace p\in P:p^\ast \cap A\ne\varnothing \rbrace| = O\left(\frac n{\sqrt r}\right)
 $$
 
 Bad groups are disjoint and each has at least s points, so:
 
 $$
-\#\text{bad simplices} \le O\left(\frac{n/\sqrt r}{s}\right)
+\\#\text{bad simplices} \le O\left(\frac{n/\sqrt r}{s}\right)
 $$
 
 Detailed division:
@@ -509,7 +509,7 @@ $$
 Thus:
 
 $$
-\#\text{bad simplices} = O\left(\frac{n}{s\sqrt r}\right)
+\\#\text{bad simplices} = O\left(\frac{n}{s\sqrt r}\right)
 $$
 
 Therefore:
@@ -641,7 +641,7 @@ is chosen from these quantities.
 The reason is the pigeonhole constraint:
 
 $$
-\#\text{faces}\le At_i^2\le \frac{n_i}{s}
+\\#\text{faces}\le At_i^2\le \frac{n_i}{s}
 $$
 
 so the average number of remaining points per face is at least:

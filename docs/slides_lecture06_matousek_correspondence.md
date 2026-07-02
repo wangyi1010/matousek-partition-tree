@@ -87,13 +87,13 @@ In the plane, hyperplanes are lines.
 So the crossing number of a line h relative to $`\Pi`$ is:
 
 $$
-\#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
+\\#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
 $$
 
 The crossing number of the whole partition is:
 
 $$
-\max_h \#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
+\max_h \\#\lbrace \Delta_i:h\text{ crosses }\Delta_i \rbrace
 $$
 
 This is exactly slide 91:
