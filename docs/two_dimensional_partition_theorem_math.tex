@@ -15,10 +15,13 @@
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-  \setmainfont[]{Helvetica Neue}
-  \setsansfont[]{Helvetica Neue}
+  \ifXeTeX
+    \XeTeXgenerateactualtext=1
+  \fi
+  \defaultfontfeatures{Scale=MatchLowercase,Ligatures={TeX,NoCommon}}
+  \defaultfontfeatures[\rmfamily]{Ligatures={TeX,NoCommon},Scale=1}
+  \setmainfont[Ligatures={TeX,NoCommon}]{Helvetica Neue}
+  \setsansfont[Ligatures={TeX,NoCommon}]{Helvetica Neue}
   \setmathfont[]{STIX Two Math}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
@@ -1319,12 +1322,12 @@ weighted cutting form used in the partition proof:
 w(H_C)\le \frac Wt
 \]
 
-What this appendix proves:
+Scope of this appendix:
 
 It explains why the cutting tool is valid and why the two-dimensional
-complexity is $O(t^2)$. The sharp no-extra-log version relies on the
+complexity is $O(t^2)$. The sharp optimal version relies on the
 exponential decay estimate above, which is the Chazelle-Friedman
-random-sampling ingredient cited in the references.
+sampling argument cited in the references.
 
 
 \hypertarget{final-statement}{%

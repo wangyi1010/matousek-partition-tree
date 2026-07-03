@@ -1194,9 +1194,9 @@ $$
 w(H_C)\le \frac Wt
 $$
 
-What this appendix proves:
+Scope of this appendix:
 
-It explains why the cutting tool is valid and why the two-dimensional complexity is \(O(t^2)\). The sharp no-extra-log version relies on the exponential decay estimate above, which is the Chazelle-Friedman random-sampling ingredient cited in the references.
+This appendix explains why the cutting tool is valid and why the two-dimensional complexity is \(O(t^2)\). The sharp optimal version relies on the exponential decay estimate above, which is the Chazelle-Friedman sampling argument cited in the references.
 
 ## Final Statement
 
