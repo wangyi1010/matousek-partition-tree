@@ -6,7 +6,7 @@ import random
 
 import pytest
 
-from practical_partition_tree_2d import (
+from matousek_partition_tree.practical import (
     build_tree,
     collect_groups,
     point_in_halfplane,

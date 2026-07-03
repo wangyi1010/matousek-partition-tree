@@ -44,39 +44,37 @@ def main() -> None:
     plot_out = None
     if "--plot" in sys.argv:
         i = sys.argv.index("--plot")
-        plot_out = sys.argv[i + 1] if i + 1 < len(sys.argv) \
-            else "assets/crossing_scaling.png"
+        plot_out = sys.argv[i + 1] if i + 1 < len(sys.argv) else "assets/crossing_scaling.png"
 
     rng = random.Random(seed)
-    D = 10 ** 4
-    pts = [(F(rng.randint(0, D), D), F(rng.randint(0, D), D))
-           for _ in range(n)]
+    D = 10**4
+    pts = [(F(rng.randint(0, D), D), F(rng.randint(0, D), D)) for _ in range(n)]
 
     rows = []
     print(f"n={n}, seed={seed}, {N_QUERY_LINES} random query lines per r\n")
-    print("| r | groups | |Q| | K_Q | K_Q/sqrt(r) | random max | "
-          "lemma 3K_Q+sqrt(r) |")
+    print("| r | groups | |Q| | K_Q | K_Q/sqrt(r) | random max | lemma 3K_Q+sqrt(r) |")
     print("|---|---|---|---|---|---|---|")
     for R in R_VALUES:
         s = n // R
-        part = mpt.simplicial_partition(pts, s, random.Random(seed))
-        stats = mpt.LAST_STATS
+        part, stats = mpt.simplicial_partition(pts, s, random.Random(seed))
         tris = [tri for _, tri in part]
         rand_cr = []
         for _ in range(N_QUERY_LINES):
-            line = (F(rng.randint(-2 * D, 2 * D), D),
-                    F(rng.randint(-2 * D, 2 * D), D))
+            line = (F(rng.randint(-2 * D, 2 * D), D), F(rng.randint(-2 * D, 2 * D), D))
             rand_cr.append(sum(mpt.line_crosses_tri(line, t) for t in tris))
-        kq = stats["K_Q"]
+        kq = stats.K_Q
         lemma = 3 * kq + math.sqrt(R)
         vac = " (vacuous)" if lemma >= len(part) else ""
-        rows.append((R, len(part), len(stats["Q"]), kq, max(rand_cr), lemma))
-        print(f"| {R} | {len(part)} | {len(stats['Q'])} | {kq} | "
-              f"{kq / math.sqrt(R):.2f} | {max(rand_cr)} | "
-              f"{lemma:.0f}{vac} |")
+        rows.append((R, len(part), len(stats.Q), kq, max(rand_cr), lemma))
+        print(
+            f"| {R} | {len(part)} | {len(stats.Q)} | {kq} | "
+            f"{kq / math.sqrt(R):.2f} | {max(rand_cr)} | "
+            f"{lemma:.0f}{vac} |"
+        )
 
     if plot_out:
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
 
@@ -92,8 +90,7 @@ def main() -> None:
         ax.plot(rs, [4 * v for v in sq], "--", label="4*sqrt(r) reference")
         ax.set_xlabel("r")
         ax.set_ylabel("simplices crossed")
-        ax.set_title(f"Crossing numbers vs r (n={n}) — mechanism works, "
-                     "constants dominate")
+        ax.set_title(f"Crossing numbers vs r (n={n}) — mechanism works, constants dominate")
         ax.legend(fontsize=9)
         fig.tight_layout()
         fig.savefig(plot_out, bbox_inches="tight")

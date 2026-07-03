@@ -42,23 +42,32 @@ arrangement inside the box has the full combinatorial structure. The
 paper works over the whole (projective) plane; unbounded cells are here
 represented by their clipped versions. Query correctness is unaffected.
 
-Usage:  python3 matousek_partition_tree.py [n_points] [seed]
+Demo CLI: matousek-demo [n_points] [seed]  (see cli.py)
 """
 
 from __future__ import annotations
 
+import logging
 import math
 import random
-import sys
 from dataclasses import dataclass, field
 from fractions import Fraction as F
+from typing import TypeAlias
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------- primitives
 # A nonvertical line is (m, c) meaning y = m*x + c, with Fraction coords.
 # A point is (x, y) with Fraction coords.
 
-Line = tuple
-Point = tuple
+# Plain-tuple aliases, deliberately not NamedTuple. Measured (CHANGELOG
+# 0.3.0): NamedTuple access is free here (Fraction arithmetic dominates),
+# but construction is ~1.25x slower, and clip/seg_line_point construct
+# points in the innermost loops. Aliases give the type documentation
+# without touching the hot path.
+Point: TypeAlias = tuple[F, F]
+Line: TypeAlias = tuple[F, F]  # (m, c) meaning y = m*x + c
+Halfplane: TypeAlias = tuple[F, F, F]  # (a, b, c) meaning a*x + b*y + c >= 0
 
 
 def dual_of_point(p: Point) -> Line:
@@ -180,10 +189,10 @@ def combinatorial_box(lines: list[Line], pts: list[Point] = ()) -> list[Point]:
         xs, ys = [0.0], [0.0]
     cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
     half = max(max(xs) - min(xs), max(ys) - min(ys), 1.0) * 2
-    lo_x = F(cx - half).limit_denominator(10 ** 6)
-    hi_x = F(cx + half).limit_denominator(10 ** 6)
-    lo_y = F(cy - half).limit_denominator(10 ** 6)
-    hi_y = F(cy + half).limit_denominator(10 ** 6)
+    lo_x = F(cx - half).limit_denominator(10**6)
+    hi_x = F(cx + half).limit_denominator(10**6)
+    lo_y = F(cy - half).limit_denominator(10**6)
+    hi_y = F(cy + half).limit_denominator(10**6)
     return [(lo_x, lo_y), (hi_x, lo_y), (hi_x, hi_y), (lo_x, hi_y)]
 
 
@@ -198,10 +207,15 @@ def poly_crossed(l: Line, poly: list[Point]) -> bool:
     return min(ss) < 0 < max(ss)
 
 
-def weighted_cutting(lines: list[Line], weights: list[F], t: float,
-                     box: list[Point], rng: random.Random,
-                     max_faces: int | None = None,
-                     max_tries: int = 60) -> list[list[Point]]:
+def weighted_cutting(
+    lines: list[Line],
+    weights: list[F],
+    t: float,
+    box: list[Point],
+    rng: random.Random,
+    max_faces: int | None = None,
+    max_tries: int = 60,
+) -> list[list[Point]]:
     """VERIFIED weighted (1/t)-cutting for (lines, weights) inside `box`,
     via the Chazelle-Friedman two-level construction the cutting theorem's
     O(t^2)-face bound actually comes from:
@@ -220,7 +234,7 @@ def weighted_cutting(lines: list[Line], weights: list[F], t: float,
     within `max_faces` (the caller's pigeonhole budget). Resamples on
     failure; raises CuttingError rather than return an unverified cutting."""
     W = sum(weights)
-    t_frac = F(t).limit_denominator(10 ** 9)
+    t_frac = F(t).limit_denominator(10**9)
     if not lines or t <= 1:
         tris = fan_triangles(box)
         if max_faces is not None and len(tris) > max_faces:
@@ -234,7 +248,10 @@ def weighted_cutting(lines: list[Line], weights: list[F], t: float,
         return heavy, idx
 
     k0 = max(1, min(len(lines), math.ceil(t)))
-    for _ in range(max_tries):
+    for attempt in range(max_tries):
+        logger.debug(
+            "weighted_cutting: attempt %d/%d, t=%.2f, k0=%d", attempt + 1, max_tries, t, k0
+        )
         # level 1: coarse sample of ~t distinct lines (k0 adapts downward if
         # the face budget binds; k0 = 0 degenerates to pure level-2
         # refinement starting from the whole box)
@@ -260,8 +277,7 @@ def weighted_cutting(lines: list[Line], weights: list[F], t: float,
             if not heavy:
                 final.append(cell)
                 continue
-            splitter = rng.choices(idx,
-                                   weights=[fweights[i] for i in idx], k=1)[0]
+            splitter = rng.choices(idx, weights=[fweights[i] for i in idx], k=1)[0]
             up = clip(cell, lines[splitter], True)
             dn = clip(cell, lines[splitter], False)
             pieces = [c for c in (up, dn) if c and poly_area2(c) > 0]
@@ -285,8 +301,7 @@ class TestSetError(RuntimeError):
     pass
 
 
-def build_test_set(points: list[Point], r: float,
-                   rng: random.Random) -> list[Line]:
+def build_test_set(points: list[Point], r: float, rng: random.Random) -> list[Line]:
     """Q = duals of ALL vertices of a fixed-scale (1/t)-cutting of P*, with
     t = beta * sqrt(r). If the cutting has more than r vertices, raise
     TestSetError instead of shrinking beta or truncating vertices.
@@ -311,14 +326,37 @@ def build_test_set(points: list[Point], r: float,
     if len(verts) > budget:
         raise TestSetError(
             f"(1/{t:.2f})-cutting of P* has {len(verts)} > r={budget} "
-            f"vertices: cutting constants too large for this r")
+            f"vertices: cutting constants too large for this r"
+        )
     return [dual_of_point(v) for v in verts]  # Q = V*, ALL vertices
 
 
 # --------------------------------------- Step 3+4: rounds with exp. weights
-def simplicial_partition(points: list[Point], s: int, rng: random.Random,
-                         ) -> list[tuple[list[Point], list[Point]]]:
-    """One application of the Partition Theorem: groups of size in [s, 2s)."""
+@dataclass(frozen=True)
+class PartitionStats:
+    """Diagnostics from one simplicial_partition() run.
+
+    Tuple fields keep the instance deeply immutable: K_Q is the quantity
+    the exponential weights directly control (theory: O(log|Q| + sqrt r)).
+    """
+
+    Q: tuple[Line, ...]
+    kappa: tuple[int, ...]
+    K_Q: int
+
+
+Group = tuple[list, list]  # (points of the group, its simplex triangle)
+
+
+def simplicial_partition(
+    points: list[Point],
+    s: int,
+    rng: random.Random,
+) -> tuple[list[Group], PartitionStats]:
+    """One application of the Partition Theorem: groups of size in [s, 2s).
+
+    Returns the groups plus a PartitionStats with the test set and its
+    final crossing counts (no module-level state)."""
     n = len(points)
     Q = build_test_set(points, n / s, rng)
     kappa = [0] * len(Q)
@@ -348,8 +386,7 @@ def simplicial_partition(points: list[Point], s: int, rng: random.Random,
         tri = tris[best]
         inside = [p for p in remaining if point_in_tri(p, tri)]
         group, rest_in = inside[:s], inside[s:]
-        remaining = [p for p in remaining
-                     if not point_in_tri(p, tri)] + rest_in
+        remaining = [p for p in remaining if not point_in_tri(p, tri)] + rest_in
         out.append((group, tri))
         for j, q in enumerate(Q):  # Step 4: double crossed test lines
             if line_crosses_tri(q, tri):
@@ -357,13 +394,16 @@ def simplicial_partition(points: list[Point], s: int, rng: random.Random,
 
     if remaining:  # terminal round: any simplex containing the rest is legal
         out.append((remaining, bounding_triangle(remaining)))
-    global LAST_STATS  # diagnostics: K_Q = max kappa over the test set
-    LAST_STATS = {"Q": Q, "kappa": kappa,
-                  "K_Q": max(kappa) if kappa else 0}
-    return out
-
-
-LAST_STATS: dict = {}
+    stats = PartitionStats(Q=tuple(Q), kappa=tuple(kappa), K_Q=max(kappa) if kappa else 0)
+    logger.info(
+        "simplicial_partition: n=%d s=%d -> %d groups, |Q|=%d, K_Q=%d",
+        n,
+        s,
+        len(out),
+        len(Q),
+        stats.K_Q,
+    )
+    return out, stats
 
 
 def bounding_triangle(points: list[Point]) -> list[Point]:
@@ -372,8 +412,7 @@ def bounding_triangle(points: list[Point]) -> list[Point]:
     lo_x, hi_x, lo_y, hi_y = min(xs), max(xs), min(ys), max(ys)
     w = (hi_x - lo_x) + 1
     h = (hi_y - lo_y) + 1
-    return [(lo_x - w, lo_y - 1), (hi_x + w, lo_y - 1),
-            ((lo_x + hi_x) / 2, hi_y + 2 * h)]
+    return [(lo_x - w, lo_y - 1), (hi_x + w, lo_y - 1), ((lo_x + hi_x) / 2, hi_y + 2 * h)]
 
 
 # -------------------------------------------------------------------- tree
@@ -381,30 +420,35 @@ def bounding_triangle(points: list[Point]) -> list[Point]:
 class PNode:
     count: int
     tri: list[Point] | None = None  # simplex of this node within its parent
-    children: list["PNode"] = field(default_factory=list)
+    children: list[PNode] = field(default_factory=list)
     points: list[Point] | None = None  # leaves only
 
 
-def build_tree(points: list[Point], r: int = 8, leaf_size: int = 32,
-               rng: random.Random | None = None,
-               tri: list[Point] | None = None) -> PNode:
+def build_tree(
+    points: list[Point],
+    r: int = 8,
+    leaf_size: int = 32,
+    rng: random.Random | None = None,
+    tri: list[Point] | None = None,
+) -> PNode:
     rng = rng or random.Random(0)
     if len(points) <= leaf_size:
         return PNode(count=len(points), tri=tri, points=points)
     s = max(1, len(points) // r)
     node = PNode(count=len(points), tri=tri)
-    for group, gtri in simplicial_partition(points, s, rng):
+    part, _stats = simplicial_partition(points, s, rng)
+    for group, gtri in part:
         node.children.append(build_tree(group, r, leaf_size, rng, gtri))
     return node
 
 
 # ------------------------------------------------------------------- query
-def halfplane_side(h: tuple, p: Point) -> F:
+def halfplane_side(h: Halfplane, p: Point) -> F:
     a, b, c = h
     return a * p[0] + b * p[1] + c
 
 
-def query_count(node: PNode, h: tuple) -> int:
+def query_count(node: PNode, h: Halfplane) -> int:
     """Count points with a*x + b*y + c >= 0."""
     if node.tri is not None:
         vals = [halfplane_side(h, v) for v in node.tri]
@@ -420,48 +464,3 @@ def query_count(node: PNode, h: tuple) -> int:
 def crossing_number(node: PNode, line: Line) -> int:
     """Simplices of node's own partition crossed by `line` (one level)."""
     return sum(line_crosses_tri(line, ch.tri) for ch in node.children)
-
-
-# -------------------------------------------------------------------- demo
-def main() -> None:
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 1200
-    seed = int(sys.argv[2]) if len(sys.argv) > 2 else 42
-    rng = random.Random(seed)
-    D = 10 ** 4
-    pts = [(F(rng.randint(0, D), D), F(rng.randint(0, D), D))
-           for _ in range(n)]
-
-    # r must satisfy beta*sqrt(r) > 1 (i.e. r > 16 at beta = 0.25) for the
-    # test-set cutting to be nontrivial and actually exercise the mechanism.
-    R = 64
-    tree = build_tree(pts, r=R, leaf_size=32, rng=random.Random(seed))
-    print(f"built: n={n}, r={R}, root children={len(tree.children)}")
-    sizes = sorted(ch.count for ch in tree.children)
-    print(f"root group sizes: {sizes}  (target [s,2s) = [{n // R},{2 * (n // R)}))")
-
-    bad = 0
-    for _ in range(60):
-        a = F(rng.randint(-D, D), D)
-        b = F(rng.randint(-D, D), D)
-        c = F(rng.randint(-D, D), D)
-        if a == 0 and b == 0:
-            continue
-        h = (a, b, c)
-        exact = sum(halfplane_side(h, p) >= 0 for p in pts)
-        got = query_count(tree, h)
-        bad += got != exact
-    print(f"query check vs brute force: {60 - bad}/60 exact matches")
-
-    crossings = []
-    for _ in range(300):
-        m = F(rng.randint(-2 * D, 2 * D), D)
-        c0 = F(rng.randint(-2 * D, 2 * D), D)
-        crossings.append(crossing_number(tree, (m, c0)))
-    mx, avg = max(crossings), sum(crossings) / len(crossings)
-    print(f"root-level crossings over 300 random lines: max={mx}, "
-          f"avg={avg:.2f}, bound O(sqrt r)=O({math.sqrt(R):.2f}) "
-          f"(out of {len(tree.children)} simplices)")
-
-
-if __name__ == "__main__":
-    main()
