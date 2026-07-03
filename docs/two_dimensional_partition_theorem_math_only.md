@@ -1,4 +1,4 @@
-# Two-Dimensional Partition Theorem: Math-Only Derivation
+# Two-Dimensional Partition Theorem: Math Derivation
 
 ## Goal
 
