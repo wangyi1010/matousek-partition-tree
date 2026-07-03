@@ -1,5 +1,7 @@
 # Two-Dimensional Partition Theorem: Math Derivation
 
+Source: planar specialization of Matoušek's Partition Theorem from *Efficient Partition Trees*. The cutting theorem used as a black box is the Chazelle-Friedman cutting machinery.
+
 ## Goal
 
 Input:
@@ -1035,3 +1037,8 @@ and:
 $$
 \mathrm{cr}(\Pi)=O(\sqrt r)
 $$
+
+## References
+
+- Jiří Matoušek, **Efficient Partition Trees**, *Discrete & Computational Geometry* 8, 315-334, 1992.
+- Bernard Chazelle and Joel Friedman, **A deterministic view of random sampling and its use in geometry**, *Combinatorica* 10, 229-249, 1990.
