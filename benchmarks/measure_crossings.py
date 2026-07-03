@@ -27,9 +27,6 @@ import math
 import random
 import sys
 from fractions import Fraction as F
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 import matousek_partition_tree as mpt
 
