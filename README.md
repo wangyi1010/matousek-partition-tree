@@ -122,7 +122,7 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 | `src/matousek_partition_tree/{cli,practical_cli}.py` | console scripts `matousek-demo` and `practical-tree` |
 | `benchmarks/measure_crossings.py` | K_Q / crossing-number measurement (the table above) |
 | `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
-| `docs/` | math derivation of the 2D theorem, calculation notes on Matoušek's paper, COMP5045 lecture correspondence — each as GitHub-rendered Markdown plus a typeset PDF (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |
+| `docs/` | math derivation of the 2D theorem and calculation notes on Matoušek's paper, as GitHub-rendered Markdown plus typeset PDFs (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |
 
 ## Theory in one paragraph
 
