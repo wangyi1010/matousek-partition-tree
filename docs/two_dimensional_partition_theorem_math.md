@@ -1045,9 +1045,7 @@ $$
 and its excess:
 
 $$
-e(\Delta)=\frac{|H_\Delta|}{n/t}
-=
-\frac{|H_\Delta|t}{n}
+e(\Delta)=\frac{|H_\Delta|}{n/t}=\frac{|H_\Delta|t}{n}
 $$
 
 If:
@@ -1077,11 +1075,7 @@ $$
 To make each refined cell crossed by at most \(O(n/t)\) original lines, use a local cutting for \(H_\Delta\) with parameter:
 
 $$
-u_\Delta=\frac{n_\Delta}{n/t}
-=
-\frac{n_\Delta t}{n}
-=
-e(\Delta)
+u_\Delta=\frac{n_\Delta}{n/t}=\frac{n_\Delta t}{n}=e(\Delta)
 $$
 
 This local refinement has:
@@ -1093,9 +1087,7 @@ $$
 subcells, and each subcell is crossed by at most:
 
 $$
-O\left(\frac{n_\Delta}{u_\Delta}\right)
-=
-O\left(\frac nt\right)
+O\left(\frac{n_\Delta}{u_\Delta}\right)=O\left(\frac nt\right)
 $$
 
 lines.
@@ -1103,18 +1095,13 @@ lines.
 Thus the final cutting size is bounded by:
 
 $$
-\sum_{\Delta}
-O\left(\max\{1,e(\Delta)^2\}\right)
+\sum_{\Delta}O\left(\max\{1,e(\Delta)^2\}\right)
 $$
 
 The key random-sampling estimate is:
 
 $$
-\mathbb E\left[
-|\{\Delta:e(\Delta)\ge u\}|
-\right]
-\le
-C_1t^2e^{-C_2u}
+\mathbb E\left[|\{\Delta:e(\Delta)\ge u\}|\right]\le C_1t^2e^{-C_2u}
 $$
 
 for constants \(C_1,C_2>0\).
@@ -1122,26 +1109,13 @@ for constants \(C_1,C_2>0\).
 Using dyadic levels:
 
 $$
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\le
-O(t^2)
-+
-\sum_{j\ge 0}
-O(2^{2j})\cdot
-|\{\Delta:2^j\le e(\Delta)<2^{j+1}\}|
+\sum_{\Delta}\max\{1,e(\Delta)^2\}\le O(t^2)+\sum_{j\ge 0}O(2^{2j})\cdot|\{\Delta:2^j\le e(\Delta)<2^{j+1}\}|
 $$
 
 Taking expectations and applying the exponential tail bound:
 
 $$
-\mathbb E\left[
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\right]
-\le
-O(t^2)
-+
-\sum_{j\ge 0}
-O(2^{2j})\cdot C_1t^2e^{-C_2 2^j}
+\mathbb E\left[\sum_{\Delta}\max\{1,e(\Delta)^2\}\right]\le O(t^2)+\sum_{j\ge 0}O(2^{2j})\cdot C_1t^2e^{-C_2 2^j}
 $$
 
 The series:
@@ -1153,11 +1127,7 @@ $$
 converges, so:
 
 $$
-\mathbb E\left[
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\right]
-=
-O(t^2)
+\mathbb E\left[\sum_{\Delta}\max\{1,e(\Delta)^2\}\right]=O(t^2)
 $$
 
 Therefore some random sample produces a cutting of size:
