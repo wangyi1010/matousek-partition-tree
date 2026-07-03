@@ -1000,6 +1000,204 @@ $$
 \mathrm{cr}(\Pi)=O(\sqrt r)
 $$
 
+## Appendix: Proof of the 2D Cutting Lemma
+
+Statement:
+
+Given n lines H in the plane and a parameter t, there exists a cutting with:
+
+$$
+O(t^2)
+$$
+
+cells, such that every cell is crossed by at most:
+
+$$
+O\left(\frac nt\right)
+$$
+
+lines of H.
+
+The weighted version replaces counts by total weights.
+
+Proof skeleton:
+
+Choose a random sample R from H of size:
+
+$$
+O(t)
+$$
+
+Build the arrangement of R and triangulate its cells. The arrangement of O(t) lines has:
+
+$$
+O(t^2)
+$$
+
+faces.
+
+For a triangle \(\Delta\), define its conflict list:
+
+$$
+H_\Delta=\{h\in H:h\text{ crosses }\Delta\}
+$$
+
+and its excess:
+
+$$
+e(\Delta)=\frac{|H_\Delta|}{n/t}
+=
+\frac{|H_\Delta|t}{n}
+$$
+
+If:
+
+$$
+e(\Delta)\le C
+$$
+
+for a sufficiently large constant C, then \(\Delta\) is already good, because:
+
+$$
+|H_\Delta|\le C\frac nt
+$$
+
+If:
+
+$$
+e(\Delta)>C
+$$
+
+then refine \(\Delta\) locally. Let:
+
+$$
+n_\Delta=|H_\Delta|
+$$
+
+To make each refined cell crossed by at most \(O(n/t)\) original lines, use a local cutting for \(H_\Delta\) with parameter:
+
+$$
+u_\Delta=\frac{n_\Delta}{n/t}
+=
+\frac{n_\Delta t}{n}
+=
+e(\Delta)
+$$
+
+This local refinement has:
+
+$$
+O(u_\Delta^2)=O(e(\Delta)^2)
+$$
+
+subcells, and each subcell is crossed by at most:
+
+$$
+O\left(\frac{n_\Delta}{u_\Delta}\right)
+=
+O\left(\frac nt\right)
+$$
+
+lines.
+
+Thus the final cutting size is bounded by:
+
+$$
+\sum_{\Delta}
+O\left(\max\{1,e(\Delta)^2\}\right)
+$$
+
+The key random-sampling estimate is:
+
+$$
+\mathbb E\left[
+|\{\Delta:e(\Delta)\ge u\}|
+\right]
+\le
+C_1t^2e^{-C_2u}
+$$
+
+for constants \(C_1,C_2>0\).
+
+Using dyadic levels:
+
+$$
+\sum_{\Delta}\max\{1,e(\Delta)^2\}
+\le
+O(t^2)
++
+\sum_{j\ge 0}
+O(2^{2j})\cdot
+|\{\Delta:2^j\le e(\Delta)<2^{j+1}\}|
+$$
+
+Taking expectations and applying the exponential tail bound:
+
+$$
+\mathbb E\left[
+\sum_{\Delta}\max\{1,e(\Delta)^2\}
+\right]
+\le
+O(t^2)
++
+\sum_{j\ge 0}
+O(2^{2j})\cdot C_1t^2e^{-C_2 2^j}
+$$
+
+The series:
+
+$$
+\sum_{j\ge 0}2^{2j}e^{-C_2 2^j}
+$$
+
+converges, so:
+
+$$
+\mathbb E\left[
+\sum_{\Delta}\max\{1,e(\Delta)^2\}
+\right]
+=
+O(t^2)
+$$
+
+Therefore some random sample produces a cutting of size:
+
+$$
+O(t^2)
+$$
+
+with every final cell crossed by at most:
+
+$$
+O\left(\frac nt\right)
+$$
+
+lines.
+
+Weighted form:
+
+For weighted lines \((H,w)\), let:
+
+$$
+W=w(H)
+$$
+
+Sample lines with probability proportional to weight, or equivalently replace each line h by \(w(h)\) copies after scaling rational weights to integers. The same argument gives cells C satisfying:
+
+$$
+w(H_C)\le O\left(\frac Wt\right)
+$$
+
+After absorbing constants into the cutting parameter, this is the weighted cutting form used in the partition proof:
+
+$$
+w(H_C)\le \frac Wt
+$$
+
+What this appendix proves:
+
+It explains why the cutting tool is valid and why the two-dimensional complexity is \(O(t^2)\). The sharp no-extra-log version relies on the exponential decay estimate above, which is the Chazelle-Friedman random-sampling ingredient cited in the references.
+
 ## Final Statement
 
 For every finite point set:
