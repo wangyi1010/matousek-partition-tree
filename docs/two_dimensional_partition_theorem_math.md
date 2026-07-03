@@ -1036,7 +1036,7 @@ $$
 
 faces.
 
-For a triangle \(\Delta\), define its conflict list:
+For a triangle $`\Delta`$, define its conflict list:
 
 $$
 H_\Delta=\{h\in H:h\text{ crosses }\Delta\}
@@ -1054,7 +1054,7 @@ $$
 e(\Delta)\le C
 $$
 
-for a sufficiently large constant C, then \(\Delta\) is already good, because:
+for a sufficiently large constant C, then $`\Delta`$ is already good, because:
 
 $$
 |H_\Delta|\le C\frac nt
@@ -1066,13 +1066,13 @@ $$
 e(\Delta)>C
 $$
 
-then refine \(\Delta\) locally. Let:
+then refine $`\Delta`$ locally. Let:
 
 $$
 n_\Delta=|H_\Delta|
 $$
 
-To make each refined cell crossed by at most \(O(n/t)\) original lines, use a local cutting for \(H_\Delta\) with parameter:
+To make each refined cell crossed by at most $`O(n/t)`$ original lines, use a local cutting for $`H_\Delta`$ with parameter:
 
 $$
 u_\Delta=\frac{n_\Delta}{n/t}=\frac{n_\Delta t}{n}=e(\Delta)
@@ -1104,7 +1104,7 @@ $$
 \mathbb E\left[|\{\Delta:e(\Delta)\ge u\}|\right]\le C_1t^2e^{-C_2u}
 $$
 
-for constants \(C_1,C_2>0\).
+for constants $`C_1,C_2>0`$.
 
 Using dyadic levels:
 
@@ -1146,13 +1146,13 @@ lines.
 
 Weighted form:
 
-For weighted lines \((H,w)\), let:
+For weighted lines $`(H,w)`$, let:
 
 $$
 W=w(H)
 $$
 
-Sample lines with probability proportional to weight, or equivalently replace each line h by \(w(h)\) copies after scaling rational weights to integers. The same argument gives cells C satisfying:
+Sample lines with probability proportional to weight, or equivalently replace each line h by $`w(h)`$ copies after scaling rational weights to integers. The same argument gives cells C satisfying:
 
 $$
 w(H_C)\le O\left(\frac Wt\right)
@@ -1166,7 +1166,7 @@ $$
 
 Scope of this appendix:
 
-This appendix explains why the cutting tool is valid and why the two-dimensional complexity is \(O(t^2)\). The sharp optimal version relies on the exponential decay estimate above, which is the Chazelle-Friedman sampling argument cited in the references.
+This appendix explains why the cutting tool is valid and why the two-dimensional complexity is $`O(t^2)`$. The sharp optimal version relies on the exponential decay estimate above, which is the Chazelle-Friedman sampling argument cited in the references.
 
 ## Final Statement
 
