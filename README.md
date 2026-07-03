@@ -136,7 +136,7 @@ $`2^{\kappa}`$ (where $`\kappa`$ counts its crossings so far), and each round ta
 from a *weighted* cutting — expensive (often-crossed) lines are avoided by
 construction, and a potential argument turns slow total-weight growth into
 $`K_Q=O(\log\lvert Q\rvert+\sqrt r)`$. Full derivation with proofs:
-[`docs/two_dimensional_partition_theorem_math_only.md`](docs/two_dimensional_partition_theorem_math_only.md).
+[`docs/two_dimensional_partition_theorem_math.md`](docs/two_dimensional_partition_theorem_math.md).
 
 ## Citation
 
