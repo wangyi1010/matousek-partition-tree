@@ -6,6 +6,20 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ruff
+        run: python -m pip install ruff
+      - name: Lint
+        run: ruff check src/ tests/ benchmarks/
+      - name: Format check
+        run: ruff format --check src/ tests/ benchmarks/
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -16,9 +30,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install test dependencies
-        run: python -m pip install pytest
-      - name: Run tests
-        run: python -m pytest tests/ -v
+      - name: Install package with dev dependencies
+        run: python -m pip install -e ".[dev]"
+      - name: Run tests with coverage (gate set in pyproject)
+        run: python -m pytest tests/ --cov --cov-report=term-missing
       - name: Run proof-skeleton demo (small)
-        run: python src/matousek_partition_tree.py 400 42
+        run: matousek-demo 400 42
+      - name: Run practical tree demo
+        run: practical-tree examples/points_example.csv --r 4 --leaf-size 2 --halfplane 1 0 -5

@@ -1,2 +1,31 @@
+# Python
 __pycache__/
 *.pyc
+*.egg-info/
+dist/
+build/
+
+# Environments
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# LaTeX intermediates (docs PDFs are committed, aux files are not)
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz

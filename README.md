@@ -81,7 +81,7 @@ quietly destroyed the theorem's cutting scale.
   small r or unlucky seeds; $`\beta\sqrt r\le 1`$ ($`r<16`$) degenerates the test-set
   cutting to a trivial box — the regime where the bound is vacuous anyway.
 - **Not a production spatial index.** For the practical counterpart, see
-  [`src/practical_partition_tree_2d.py`](src/practical_partition_tree_2d.py):
+  [`src/matousek_partition_tree/practical.py`](src/matousek_partition_tree/practical.py):
   a float kd-style tree with the *same query skeleton* (classify cell →
   prune / take whole / recurse) that answers the same queries exactly,
   orders of magnitude faster — it just has no worst-case guarantee against
@@ -90,22 +90,22 @@ quietly destroyed the theorem's cutting scale.
 
 ## Quick start
 
-Python 3.11+, no dependencies for the core (matplotlib only for figures).
+Python 3.11+, zero runtime dependencies (matplotlib only for figures).
 
 ```bash
+python3 -m pip install -e ".[dev,viz]"
+
 # proof-skeleton demo: build at r=64, verify 60 queries vs brute force,
 # print measured crossing numbers (~20 s)
-python3 src/matousek_partition_tree.py 1200 42
+matousek-demo 1200 42
 
 # practical kd-style baseline (instant)
-python3 src/practical_partition_tree_2d.py examples/points_example.csv \
-    --r 4 --leaf-size 2 --halfplane 1 0 -5
+practical-tree examples/points_example.csv --r 4 --leaf-size 2 --halfplane 1 0 -5
 
-# tests
-python3 -m pip install pytest && python3 -m pytest tests/ -v
+# tests with the coverage gate
+pytest tests/ --cov
 
 # reproduce the constants table + scaling plot
-python3 -m pip install matplotlib
 python3 benchmarks/measure_crossings.py 1200 7 --plot assets/crossing_scaling.png
 
 # regenerate the figure above
@@ -116,10 +116,10 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 
 | Path | What |
 |---|---|
-| `src/matousek_partition_tree.py` | the verified proof-skeleton construction + tree + queries |
-| `src/practical_partition_tree_2d.py` | fast kd-style baseline, same query interface |
+| `src/matousek_partition_tree/core.py` | the verified proof-skeleton construction + tree + queries |
+| `src/matousek_partition_tree/practical.py` | fast kd-style baseline, same query interface |
 | `src/visualize_matousek.py` | generates the partition figure from the verified code |
-| `src/visualize_partition_tree_2d.py` | visualization helper for the practical tree |
+| `src/matousek_partition_tree/{cli,practical_cli}.py` | console scripts `matousek-demo` and `practical-tree` |
 | `benchmarks/measure_crossings.py` | K_Q / crossing-number measurement (the table above) |
 | `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
 | `docs/` | math-only derivation of the 2D theorem, calculation notes on Matoušek's paper, COMP5045 lecture correspondence — each as GitHub-rendered Markdown plus a typeset PDF (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |
