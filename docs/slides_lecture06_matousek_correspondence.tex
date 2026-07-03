@@ -53,7 +53,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{3} % keep section anchors for clickable PDF TOC
 \usepackage{xcolor}
 \usepackage{titlesec}
 \definecolor{textmain}{HTML}{1F2328}
@@ -65,8 +65,8 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
 \setlength{\emergencystretch}{3em}
-\titleformat{\section}{\fontsize{16}{20}\selectfont\bfseries\color{textmain}}{\thesection}{8pt}{}
-\titleformat{\subsection}{\fontsize{13}{16}\selectfont\bfseries\color{accent}}{\thesubsection}{6pt}{}
+\titleformat{\section}{\fontsize{16}{20}\selectfont\bfseries\color{textmain}}{}{0pt}{}
+\titleformat{\subsection}{\fontsize{13}{16}\selectfont\bfseries\color{accent}}{}{0pt}{}
 \titlespacing*{\section}{0pt}{18pt}{6pt}
 \titlespacing*{\subsection}{0pt}{12pt}{4pt}
 \ifLuaTeX
