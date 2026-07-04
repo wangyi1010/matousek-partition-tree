@@ -5,8 +5,8 @@ Reproduces the demo setting: n = 1200 uniform points, r = 64, s = 18
 -> 66 groups with sizes in [18, 36).
 
 Panels:
-  1. all point groups, colored by group membership;
-  2. a few sample groups with their simplices (drawing all 66 is unreadable
+  1. a labeled subset of groups, with all other points muted;
+  2. the same labeled groups with their simplices (drawing all 66 is unreadable
      because the construction's triangles legitimately extend far beyond
      the data and overlap — only the point groups are disjoint);
   3. a query line: points whose simplex the line crosses (must recurse)
@@ -31,6 +31,21 @@ from matplotlib.patches import Polygon as MplPolygon
 from matousek_partition_tree.core import line_crosses_tri, simplicial_partition
 
 
+def centroid(group):
+    return (
+        sum(float(p[0]) for p in group) / len(group),
+        sum(float(p[1]) for p in group) / len(group),
+    )
+
+
+def choose_visible_groups(part, count=8):
+    """Pick groups spread across the x-order so the labels are readable."""
+    ordered = sorted(range(len(part)), key=lambda k: centroid(part[k][0])[0])
+    if count >= len(ordered):
+        return ordered
+    return [ordered[round(i * (len(ordered) - 1) / (count - 1))] for i in range(count)]
+
+
 def main() -> None:
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 1200
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else 42
@@ -47,46 +62,82 @@ def main() -> None:
         f"n={n}, r={R}, s={s}: {len(part)} groups, sizes {sizes[0]}..{sizes[-1]}, K_Q={stats.K_Q}"
     )
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 5.8), dpi=150)
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(17.8, 5.9), dpi=150)
     for ax in (ax1, ax2, ax3):
         ax.set_xlim(-0.06, 1.06)
         ax.set_ylim(-0.06, 1.06)
         ax.set_aspect("equal")
         ax.tick_params(labelsize=8)
 
-    # panel 1: every group in its own color
-    cmap = plt.get_cmap("hsv")
-    order = rng.sample(range(len(part)), len(part))
-    for k, (group, _) in enumerate(part):
-        col = cmap(order[k] / len(part))
-        ax1.scatter(
-            [float(p[0]) for p in group], [float(p[1]) for p in group], s=7, color=col, linewidths=0
-        )
-    ax1.set_title(f"{len(part)} disjoint point groups, sizes in [{s}, {2 * s})", fontsize=11)
-
-    # panel 2: a few sample groups with their simplices
-    show = rng.sample(range(len(part)), 6)
+    # panel 1: selected labeled groups, not 66 indistinguishable colors
+    show = choose_visible_groups(part, 8)
     sample_cmap = plt.get_cmap("tab10")
-    ax2.scatter(
+    ax1.scatter(
         [float(p[0]) for p in pts], [float(p[1]) for p in pts], s=4, color="0.82", linewidths=0
+    )
+    for j, k in enumerate(show):
+        group, _tri = part[k]
+        col = sample_cmap(j)
+        cx, cy = centroid(group)
+        ax1.scatter(
+            [float(p[0]) for p in group],
+            [float(p[1]) for p in group],
+            s=18,
+            color=col,
+            edgecolors="white",
+            linewidths=0.35,
+            label=f"G{k} ({len(group)})",
+        )
+        ax1.text(
+            cx,
+            cy,
+            f"G{k}",
+            fontsize=8,
+            weight="bold",
+            color="black",
+            ha="center",
+            va="center",
+            bbox={"boxstyle": "round,pad=0.18", "facecolor": "white", "alpha": 0.82, "lw": 0},
+        )
+    ax1.set_title(
+        f"8 labeled groups out of {len(part)} total\n"
+        f"label format: group id, legend shows group size; all groups are disjoint",
+        fontsize=11,
+    )
+    ax1.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=4, fontsize=7, frameon=False)
+
+    # panel 2: the same sample groups with their simplices
+    ax2.scatter(
+        [float(p[0]) for p in pts], [float(p[1]) for p in pts], s=4, color="0.84", linewidths=0
     )
     for j, k in enumerate(show):
         group, tri = part[k]
         col = sample_cmap(j)
         tri_f = [(float(v[0]), float(v[1])) for v in tri]
         ax2.add_patch(
-            MplPolygon(tri_f, closed=True, facecolor=col, alpha=0.13, edgecolor=col, linewidth=1.4)
+            MplPolygon(tri_f, closed=True, facecolor=col, alpha=0.12, edgecolor=col, linewidth=1.6)
         )
         ax2.scatter(
             [float(p[0]) for p in group],
             [float(p[1]) for p in group],
-            s=10,
-            color=col,
+            s=16,
             linewidths=0,
+            color=col,
+        )
+        cx, cy = centroid(group)
+        ax2.text(
+            cx,
+            cy,
+            f"G{k}",
+            fontsize=8,
+            weight="bold",
+            ha="center",
+            va="center",
+            bbox={"boxstyle": "round,pad=0.18", "facecolor": "white", "alpha": 0.82, "lw": 0},
         )
     ax2.set_title(
-        "6 sample groups and their simplices (clipped to view;\n"
-        "simplices may overlap — only the groups are disjoint)",
+        "same 8 groups with their containing simplices\n"
+        "triangles may overlap or extend outside view; point groups do not overlap",
         fontsize=11,
     )
 

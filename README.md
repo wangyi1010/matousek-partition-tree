@@ -13,9 +13,10 @@ explain why theory-optimal never shipped.
 ![One application of the Partition Theorem](assets/partition_tree_example.png)
 
 *n = 1200 points, r = 64: the construction produces 66 disjoint point groups
-of sizes in [18, 36) (left), each contained in a — possibly overlapping —
-triangle (middle). A halfplane query only recurses into the simplices its
-boundary line crosses; everything else is counted wholesale in $`O(1)`$ (right).*
+of sizes in [18, 36). The left panel labels 8 representative groups, the
+middle panel shows the same groups inside their containing — possibly
+overlapping — simplices, and the right panel shows which groups a halfplane
+query must recurse into versus count wholesale in $`O(1)`$.*
 
 ## The headline result
 
