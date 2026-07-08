@@ -45,6 +45,41 @@ Two things are true at once, and that tension is the point of the project:
   already takes minutes. This is why production systems use R-trees and
   kd-trees with no adversarial guarantee instead.
 
+## Complexity calculation
+
+The whole chain, in one place — why a query costs $`O(n^{1/2+\varepsilon})`$.
+
+**Setup.** With $`n`$ points and target group size $`s`$, the partition has
+
+$$r = n/s \text{ groups}, \qquad \lvert Q\rvert \le r \text{ test lines.}$$
+
+**Test lines are controlled.** Exponential reweighting bounds the crossing
+number over the test set:
+
+$$K_Q = O(\sqrt r).$$
+
+**Transfer to all lines** via the Test Set Lemma:
+
+$$\mathrm{cr}_\Pi(h) \le 3K_Q + O\!\left(\tfrac{n}{s\sqrt r}\right).$$
+
+**Simplify the second term** using $`r = n/s`$ (so $`n/s = r`$):
+
+$$\frac{n}{s\sqrt r} = \frac{r}{\sqrt r} = \sqrt r \;\Longrightarrow\; \mathrm{cr}_\Pi(h) = O(\sqrt r).$$
+
+So *every* line — not just test lines — crosses $`O(\sqrt r)`$ of the $`r`$ simplices.
+
+**Query recurrence.** A halfplane query counts the $`O(\sqrt r)`$ crossed groups
+recursively and takes the rest wholesale in $`O(1)`$:
+
+$$T(n) = r + O(\sqrt r)\,T(2n/r).$$
+
+Choosing $`r`$ a large constant depending on $`\varepsilon`$ solves this to
+
+$$T(n) = O\!\left(n^{1/2+\varepsilon}\right),$$
+
+the theorem's optimal query time. The measured table above is exactly the
+$`K_Q = O(\sqrt r)`$ step, with its constant of ≈ 4–5 made explicit.
+
 ## What "verified" means here
 
 Every precondition of the construction that can be checked at runtime is
