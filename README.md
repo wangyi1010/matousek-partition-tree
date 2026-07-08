@@ -47,33 +47,51 @@ Two things are true at once, and that tension is the point of the project:
 
 ## Complexity calculation
 
-The whole chain, in one place — why a query costs $`O(n^{1/2+\varepsilon})`$.
+The whole chain, in one place — with every symbol used in the bound.
+
+| Symbol | Meaning |
+|---|---|
+| $`n`$ | number of input points at the current tree node |
+| $`s`$ | target size of each point group |
+| $`r=n/s`$ | intended number of groups in one partition step |
+| $`\Pi`$ | the simplicial partition: point groups plus their containing triangles |
+| $`h`$ | an arbitrary query line, i.e. the boundary of a halfplane query |
+| $`\mathrm{cr}_\Pi(h)`$ | number of triangles of $`\Pi`$ crossed by line $`h`$ |
+| $`Q`$ | finite set of test lines built from dual cutting vertices |
+| $`K_Q`$ | worst crossing count among the test lines in $`Q`$ |
+| $`T(n)`$ | query time for a subtree containing $`n`$ points |
 
 **Setup.** With $`n`$ points and target group size $`s`$, the partition has
 
 $$r = n/s \text{ groups}, \qquad \lvert Q\rvert \le r \text{ test lines.}$$
 
-**Test lines are controlled.** Exponential reweighting bounds the crossing
-number over the test set:
+**Step 1: control only the finite test set.** Exponential reweighting bounds
+how many already-built triangles any test line crosses:
 
 $$K_Q = O(\sqrt r).$$
 
-**Transfer to all lines** via the Test Set Lemma:
+**Step 2: transfer from test lines to every line.** The Test Set Lemma says
+that an arbitrary line $`h`$ can be charged to three nearby test lines, plus a
+small error term from one dual cutting cell:
 
 $$\mathrm{cr}_\Pi(h) \le 3K_Q + O\!\left(\tfrac{n}{s\sqrt r}\right).$$
 
-**Simplify the second term** using $`r = n/s`$ (so $`n/s = r`$):
+**Step 3: simplify the error term.** Since $`r=n/s`$, we also have $`n/s=r`$:
 
 $$\frac{n}{s\sqrt r} = \frac{r}{\sqrt r} = \sqrt r \;\Longrightarrow\; \mathrm{cr}_\Pi(h) = O(\sqrt r).$$
 
 So *every* line — not just test lines — crosses $`O(\sqrt r)`$ of the $`r`$ simplices.
 
-**Query recurrence.** A halfplane query counts the $`O(\sqrt r)`$ crossed groups
-recursively and takes the rest wholesale in $`O(1)`$:
+**Step 4: turn crossing number into query time.** A halfplane query recurses
+only into crossed triangles. The other groups are fully inside or outside the
+query halfplane and are counted or discarded wholesale. This gives:
 
 $$T(n) = r + O(\sqrt r)\,T(2n/r).$$
 
-Choosing $`r`$ a large constant depending on $`\varepsilon`$ solves this to
+Here $`r`$ is the per-node overhead, and $`2n/r`$ is the worst-case size of one
+child group because the partition is fine: every group has fewer than $`2n/r`$
+points. Choosing $`r`$ as a sufficiently large constant depending on
+$`\varepsilon`$ solves the recurrence to:
 
 $$T(n) = O\!\left(n^{1/2+\varepsilon}\right),$$
 
