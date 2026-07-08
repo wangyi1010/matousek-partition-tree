@@ -47,7 +47,7 @@ Two things are true at once, and that tension is the point of the project:
 
 ## Complexity calculation
 
-The whole chain, in one place — with every symbol used in the bound.
+The whole chain, in one place. This is the calculation behind the query bound.
 
 | Symbol | Meaning |
 |---|---|
@@ -61,24 +61,38 @@ The whole chain, in one place — with every symbol used in the bound.
 | $`K_Q`$ | worst crossing count among the test lines in $`Q`$ |
 | $`T(n)`$ | query time for a subtree containing $`n`$ points |
 
-**Setup.** With $`n`$ points and target group size $`s`$, the partition has
+**Setup.** At one tree node, choose group size $`s`$. Then the intended number
+of groups is:
 
-$$r = n/s \text{ groups}, \qquad \lvert Q\rvert \le r \text{ test lines.}$$
+$$r=\frac{n}{s}.$$
+
+The finite test set is constructed so that:
+
+$$|Q|\le r.$$
 
 **Step 1: control only the finite test set.** Exponential reweighting bounds
-how many already-built triangles any test line crosses:
+how many triangles any test line crosses:
 
 $$K_Q = O(\sqrt r).$$
 
 **Step 2: transfer from test lines to every line.** The Test Set Lemma says
-that an arbitrary line $`h`$ can be charged to three nearby test lines, plus a
-small error term from one dual cutting cell:
+that any query line $`h`$ is controlled by three nearby test lines, plus one
+extra error term:
 
-$$\mathrm{cr}_\Pi(h) \le 3K_Q + O\!\left(\tfrac{n}{s\sqrt r}\right).$$
+$$\mathrm{cr}_\Pi(h) \le 3K_Q + O\left(\frac{n}{s\sqrt r}\right).$$
 
-**Step 3: simplify the error term.** Since $`r=n/s`$, we also have $`n/s=r`$:
+Here:
 
-$$\frac{n}{s\sqrt r} = \frac{r}{\sqrt r} = \sqrt r \;\Longrightarrow\; \mathrm{cr}_\Pi(h) = O(\sqrt r).$$
+- $`3K_Q`$ comes from the three vertices of a dual cutting triangle.
+- $`O(n/(s\sqrt r))`$ counts the possible bad simplices not already covered by those three test lines.
+
+**Step 3: simplify the error term.** Since $`r=n/s`$, we get:
+
+$$\frac{n}{s\sqrt r}=\frac{r}{\sqrt r}=\sqrt r.$$
+
+Therefore:
+
+$$\mathrm{cr}_\Pi(h)=O(\sqrt r).$$
 
 So *every* line — not just test lines — crosses $`O(\sqrt r)`$ of the $`r`$ simplices.
 
@@ -88,12 +102,16 @@ query halfplane and are counted or discarded wholesale. This gives:
 
 $$T(n) = r + O(\sqrt r)\,T(2n/r).$$
 
-Here $`r`$ is the per-node overhead, and $`2n/r`$ is the worst-case size of one
-child group because the partition is fine: every group has fewer than $`2n/r`$
-points. Choosing $`r`$ as a sufficiently large constant depending on
-$`\varepsilon`$ solves the recurrence to:
+In this recurrence:
 
-$$T(n) = O\!\left(n^{1/2+\varepsilon}\right),$$
+- $`r`$ is the work to inspect the groups at the current node.
+- $`O(\sqrt r)`$ is the number of children the query may recurse into.
+- $`2n/r`$ is the maximum child size, because each group has fewer than $`2n/r`$ points.
+
+Choosing $`r`$ as a sufficiently large constant depending on $`\varepsilon`$
+solves the recurrence to:
+
+$$T(n)=O\left(n^{1/2+\varepsilon}\right).$$
 
 the theorem's optimal query time. The measured table above is exactly the
 $`K_Q = O(\sqrt r)`$ step, with its constant of ≈ 4–5 made explicit.
