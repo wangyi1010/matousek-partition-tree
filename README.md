@@ -45,6 +45,43 @@ Two things are true at once, and that tension is the point of the project:
   already takes minutes. This is why production systems use R-trees and
   kd-trees with no adversarial guarantee instead.
 
+## How the construction works
+
+The build has **two stages**. Stage 1 runs once to produce the finite test set
+$`Q`$; Stage 2 then peels off point groups one at a time. The key subtlety: each
+round does **not** walk over old cells — it builds a *fresh* weighted cutting of
+$`Q`$ and takes a single good cell from it.
+
+```mermaid
+flowchart TB
+    subgraph S1["Stage 1 · build the test set Q (once, in the dual plane)"]
+        direction TB
+        A["dualize points → dual lines P*"] --> B["build one cutting<br/>of sampled dual lines"]
+        B --> C["take the cutting's vertices"]
+        C --> D["dualize back → test lines Q<br/>guarantee: |Q| ≤ r"]
+    end
+    subgraph S2["Stage 2 · peel groups round by round (primal plane)"]
+        direction TB
+        E["weights w_i = 2^κ_i"] --> F["build a NEW weighted cutting of Q<br/>scale t_i = 0.35·√&#40;n_i/s&#41;"]
+        F --> G["count remaining points in each cell"]
+        G --> H["pick the cell with the most points<br/>pigeonhole ⇒ ≥ s points"]
+        H --> I["take exactly s points = one group<br/>leftover points return to the pool"]
+        I --> J["double κ_i for every test line<br/>crossing the chosen triangle"]
+        J --> K{"remaining ≥ 2s ?"}
+        K -- yes --> E
+        K -- no --> L["terminal group takes the rest"]
+    end
+    D --> E
+```
+
+Why the loop shrinks and terminates: each round removes exactly $`s`$ points, so
+after about $`r=n/s`$ rounds the pool drops below $`2s`$ and the terminal group
+closes it out. The cutting scale $`t_i`$ tracks the shrinking pool $`n_i`$, so early
+rounds cut finely and late rounds coarsely. Step "double κ_i" is what feeds the
+next round's weights — an often-crossed test line becomes exponentially heavy, so
+the next cutting is forced to resolve it, which is exactly what drives $`K_Q`$ down
+to $`O(\sqrt r)`$.
+
 ## Complexity calculation
 
 The whole chain, in one place. This is the calculation behind the query bound.
