@@ -1206,6 +1206,86 @@ $$
 \mathrm{cr}(\Pi)=O(\sqrt r)
 $$
 
+## Preprocessing Time: Building the Partition Tree
+
+This is a theorem-level bound for the *construction* of the whole tree,
+separate from the query recurrence. It is the theorem's guarantee, **not** a
+proved wall-clock bound for this Python implementation (which uses exact
+`Fraction` arithmetic and randomized cutting retries — see the caveat at the
+end).
+
+Let $`B(m)`$ be the time to build a partition tree on $`m`$ points. For any
+fixed $`\delta>0`$, one simplicial partition at a node is constructed in
+$`O(m^{1+\delta})`$ time, so:
+
+$$
+B(m)=O\left(m^{1+\delta}\right)+\sum_i B(m_i),
+$$
+
+where the child classes are disjoint and each is a constant factor smaller:
+
+$$
+\sum_i m_i=m,\qquad m_i\le\frac{2m}{r}.
+$$
+
+**Cost at a single depth.** Fix a depth $`j`$ of the recursion tree, and let
+$`V_j`$ be the nodes at that depth. Their point sets are disjoint, so their
+sizes sum to at most $`m`$, and by applying the size shrinkage $`j`$ times the
+largest one is bounded:
+
+$$
+\sum_{v\in V_j}m_v\le m,\qquad \max_{v\in V_j}m_v\le m\left(\frac{2}{r}\right)^j.
+$$
+
+Split each per-node cost as $`m_v^{1+\delta}=m_v\,m_v^{\delta}`$ and pull out
+the max on the $`\delta`$ factor:
+
+$$
+\begin{aligned}
+C_j
+&=\sum_{v\in V_j}O\left(m_v^{1+\delta}\right)
+ =O\!\left(\sum_{v\in V_j}m_v\,m_v^{\delta}\right)\\
+&\le O\!\left(\left(\max_{v\in V_j}m_v\right)^{\delta}\sum_{v\in V_j}m_v\right)
+ \le O\!\left(m^{1+\delta}\left(\frac{2}{r}\right)^{j\delta}\right).
+\end{aligned}
+$$
+
+**Sum over all depths.** For fixed $`r>2`$ the per-level factor is below one,
+so the level costs form a convergent geometric series:
+
+$$
+\left(\frac{2}{r}\right)^{\delta}<1
+\quad\Longrightarrow\quad
+\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}=\frac{1}{1-\left(\frac{2}{r}\right)^{\delta}}=O(1).
+$$
+
+Therefore:
+
+$$
+B(m)=O\!\left(m^{1+\delta}\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}\right)=O\left(m^{1+\delta}\right).
+$$
+
+**Matching the stated bound.** Taking $`\delta=\varepsilon/2`$ gives the
+stronger intermediate bound $`O(n^{1+\varepsilon/2})`$, and hence the standard
+stated preprocessing bound:
+
+$$
+B(n)=O\left(n^{1+\varepsilon}\right).
+$$
+
+Note that $`O(n\log n)\subsetneq O(n^{1+\varepsilon})`$ strictly: for every
+fixed $`\varepsilon>0`$ we have $`\log n=O(n^{\varepsilon})`$ but not the
+reverse. Matoušek's tighter $`O(n\log n)`$ preprocessing is a separate result
+that charges construction against the partition structure rather than this
+level-by-level geometric series.
+
+**Caveat for this implementation.** The bound above is the theoretical
+guarantee. It does **not** claim this Python code runs in $`O(n^{1+\varepsilon})`$
+wall-clock time: that would additionally require a bit-complexity analysis of
+exact `Fraction` arithmetic and a runtime analysis of the randomized cutting
+retries and runtime verification. This code trades all of that away for exact
+arithmetic and verifiable preconditions, and is correspondingly slow.
+
 ## References
 
 - Jiri Matousek, **Efficient Partition Trees**, *Discrete & Computational Geometry* 8, 315-334, 1992.

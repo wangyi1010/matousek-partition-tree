@@ -153,6 +153,21 @@ $$T(n)=O\left(n^{1/2+\varepsilon}\right).$$
 the theorem's optimal query time. The measured table above is exactly the
 $`K_Q = O(\sqrt r)`$ step, with its constant of ≈ 4–5 made explicit.
 
+### Theoretical preprocessing time
+
+Separate from the query recurrence: the theorem builds the whole tree in
+$`O(n\log n)`$ time. A simpler level-by-level argument gives the weaker
+$`O(n^{1+\varepsilon})`$ — each depth of the recursion costs a constant factor
+less than the one above it, because the child classes are disjoint and each is
+at most $`2n/r`$ in size, so for fixed $`r>2`$:
+
+$$\left(\tfrac{2}{r}\right)^{\delta}<1 \;\Longrightarrow\; \sum_{j\ge0}\left(\tfrac{2}{r}\right)^{j\delta}=O(1) \;\Longrightarrow\; B(n)=O\!\left(n^{1+\delta}\right).$$
+
+This is a theorem-level bound, **not** a proved wall-clock bound for this
+implementation — exact `Fraction` arithmetic and randomized cutting retries make
+it far slower in practice. Full level-by-level derivation:
+[`docs/two_dimensional_partition_theorem_math.md`](docs/two_dimensional_partition_theorem_math.md#preprocessing-time-building-the-partition-tree).
+
 ## What "verified" means here
 
 Every precondition of the construction that can be checked at runtime is

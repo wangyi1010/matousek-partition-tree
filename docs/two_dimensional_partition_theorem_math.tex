@@ -15,13 +15,10 @@
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
   \usepackage{unicode-math}
-  \ifXeTeX
-    \XeTeXgenerateactualtext=1
-  \fi
-  \defaultfontfeatures{Scale=MatchLowercase,Ligatures={TeX,NoCommon}}
-  \defaultfontfeatures[\rmfamily]{Ligatures={TeX,NoCommon},Scale=1}
-  \setmainfont[Ligatures={TeX,NoCommon}]{Helvetica Neue}
-  \setsansfont[Ligatures={TeX,NoCommon}]{Helvetica Neue}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \setmainfont[]{Helvetica Neue}
+  \setsansfont[]{Helvetica Neue}
   \setmathfont[]{STIX Two Math}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
@@ -42,8 +39,7 @@
 \makeatother
 \usepackage{xcolor}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\usepackage{hyperref}
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   colorlinks=true,
   linkcolor={accent},
@@ -56,6 +52,8 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifXeTeX\XeTeXgenerateactualtext=1\fi
 \setcounter{secnumdepth}{3} % keep section anchors for clickable PDF TOC
 \usepackage{xcolor}
 \usepackage{titlesec}
@@ -99,7 +97,7 @@
 \section{Two-Dimensional Partition Theorem: Math
 Derivation}\label{two-dimensional-partition-theorem-math-derivation}}
 
-Source: planar specialization of Matoušek's Partition Theorem from
+Source: planar specialization of Matousek's Partition Theorem from
 \emph{Efficient Partition Trees}. The cutting theorem used as a black
 box is the Chazelle-Friedman cutting machinery.
 
@@ -1159,7 +1157,7 @@ O(t^2)
 
 faces.
 
-For a triangle $\Delta$, define its conflict list:
+For a triangle \(\Delta\), define its conflict list:
 
 \[
 H_\Delta=\{h\in H:h\text{ crosses }\Delta\}
@@ -1168,9 +1166,7 @@ H_\Delta=\{h\in H:h\text{ crosses }\Delta\}
 and its excess:
 
 \[
-e(\Delta)=\frac{|H_\Delta|}{n/t}
-=
-\frac{|H_\Delta|t}{n}
+e(\Delta)=\frac{|H_\Delta|}{n/t}=\frac{|H_\Delta|t}{n}
 \]
 
 If:
@@ -1179,7 +1175,7 @@ If:
 e(\Delta)\le C
 \]
 
-for a sufficiently large constant C, then $\Delta$ is already good,
+for a sufficiently large constant C, then \(\Delta\) is already good,
 because:
 
 \[
@@ -1192,21 +1188,17 @@ If:
 e(\Delta)>C
 \]
 
-then refine $\Delta$ locally. Let:
+then refine \(\Delta\) locally. Let:
 
 \[
 n_\Delta=|H_\Delta|
 \]
 
-To make each refined cell crossed by at most $O(n/t)$ original lines,
-use a local cutting for $H_\Delta$ with parameter:
+To make each refined cell crossed by at most \(O(n/t)\) original lines,
+use a local cutting for \(H_\Delta\) with parameter:
 
 \[
-u_\Delta=\frac{n_\Delta}{n/t}
-=
-\frac{n_\Delta t}{n}
-=
-e(\Delta)
+u_\Delta=\frac{n_\Delta}{n/t}=\frac{n_\Delta t}{n}=e(\Delta)
 \]
 
 This local refinement has:
@@ -1218,9 +1210,7 @@ O(u_\Delta^2)=O(e(\Delta)^2)
 subcells, and each subcell is crossed by at most:
 
 \[
-O\left(\frac{n_\Delta}{u_\Delta}\right)
-=
-O\left(\frac nt\right)
+O\left(\frac{n_\Delta}{u_\Delta}\right)=O\left(\frac nt\right)
 \]
 
 lines.
@@ -1228,45 +1218,27 @@ lines.
 Thus the final cutting size is bounded by:
 
 \[
-\sum_{\Delta}
-O\left(\max\{1,e(\Delta)^2\}\right)
+\sum_{\Delta}O\left(\max\{1,e(\Delta)^2\}\right)
 \]
 
 The key random-sampling estimate is:
 
 \[
-\mathbb E\left[
-|\{\Delta:e(\Delta)\ge u\}|
-\right]
-\le
-C_1t^2e^{-C_2u}
+\mathbb E\left[|\{\Delta:e(\Delta)\ge u\}|\right]\le C_1t^2e^{-C_2u}
 \]
 
-for constants $C_1,C_2>0$.
+for constants \(C_1,C_2>0\).
 
 Using dyadic levels:
 
 \[
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\le
-O(t^2)
-+
-\sum_{j\ge 0}
-O(2^{2j})\cdot
-|\{\Delta:2^j\le e(\Delta)<2^{j+1}\}|
+\sum_{\Delta}\max\{1,e(\Delta)^2\}\le O(t^2)+\sum_{j\ge 0}O(2^{2j})\cdot|\{\Delta:2^j\le e(\Delta)<2^{j+1}\}|
 \]
 
 Taking expectations and applying the exponential tail bound:
 
 \[
-\mathbb E\left[
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\right]
-\le
-O(t^2)
-+
-\sum_{j\ge 0}
-O(2^{2j})\cdot C_1t^2e^{-C_2 2^j}
+\mathbb E\left[\sum_{\Delta}\max\{1,e(\Delta)^2\}\right]\le O(t^2)+\sum_{j\ge 0}O(2^{2j})\cdot C_1t^2e^{-C_2 2^j}
 \]
 
 The series:
@@ -1278,11 +1250,7 @@ The series:
 converges, so:
 
 \[
-\mathbb E\left[
-\sum_{\Delta}\max\{1,e(\Delta)^2\}
-\right]
-=
-O(t^2)
+\mathbb E\left[\sum_{\Delta}\max\{1,e(\Delta)^2\}\right]=O(t^2)
 \]
 
 Therefore some random sample produces a cutting of size:
@@ -1301,14 +1269,14 @@ lines.
 
 Weighted form:
 
-For weighted lines $(H,w)$, let:
+For weighted lines \((H,w)\), let:
 
 \[
 W=w(H)
 \]
 
 Sample lines with probability proportional to weight, or equivalently
-replace each line $h$ by $w(h)$ copies after scaling rational weights to
+replace each line h by \(w(h)\) copies after scaling rational weights to
 integers. The same argument gives cells C satisfying:
 
 \[
@@ -1324,11 +1292,10 @@ w(H_C)\le \frac Wt
 
 Scope of this appendix:
 
-It explains why the cutting tool is valid and why the two-dimensional
-complexity is $O(t^2)$. The sharp optimal version relies on the
-exponential decay estimate above, which is the Chazelle-Friedman
-sampling argument cited in the references.
-
+This appendix explains why the cutting tool is valid and why the
+two-dimensional complexity is \(O(t^2)\). The sharp optimal version
+relies on the exponential decay estimate above, which is the
+Chazelle-Friedman sampling argument cited in the references.
 
 \hypertarget{final-statement}{%
 \subsection{Final Statement}\label{final-statement}}
@@ -1369,14 +1336,98 @@ and:
 \mathrm{cr}(\Pi)=O(\sqrt r)
 \]
 
+\hypertarget{preprocessing-time-building-the-partition-tree}{%
+\subsection{Preprocessing Time: Building the Partition
+Tree}\label{preprocessing-time-building-the-partition-tree}}
+
+This is a theorem-level bound for the \emph{construction} of the whole
+tree, separate from the query recurrence. It is the theorem's guarantee,
+\textbf{not} a proved wall-clock bound for this Python implementation
+(which uses exact \texttt{Fraction} arithmetic and randomized cutting
+retries --- see the caveat at the end).
+
+Let \(B(m)\) be the time to build a partition tree on \(m\) points. For
+any fixed \(\delta>0\), one simplicial partition at a node is
+constructed in \(O(m^{1+\delta})\) time, so:
+
+\[
+B(m)=O\left(m^{1+\delta}\right)+\sum_i B(m_i),
+\]
+
+where the child classes are disjoint and each is a constant factor
+smaller:
+
+\[
+\sum_i m_i=m,\qquad m_i\le\frac{2m}{r}.
+\]
+
+\textbf{Cost at a single depth.} Fix a depth \(j\) of the recursion
+tree, and let \(V_j\) be the nodes at that depth. Their point sets are
+disjoint, so their sizes sum to at most \(m\), and by applying the size
+shrinkage \(j\) times the largest one is bounded:
+
+\[
+\sum_{v\in V_j}m_v\le m,\qquad \max_{v\in V_j}m_v\le m\left(\frac{2}{r}\right)^j.
+\]
+
+Split each per-node cost as \(m_v^{1+\delta}=m_v\,m_v^{\delta}\) and
+pull out the max on the \(\delta\) factor:
+
+\[
+\begin{aligned}
+C_j
+&=\sum_{v\in V_j}O\left(m_v^{1+\delta}\right)
+ =O\!\left(\sum_{v\in V_j}m_v\,m_v^{\delta}\right)\\
+&\le O\!\left(\left(\max_{v\in V_j}m_v\right)^{\delta}\sum_{v\in V_j}m_v\right)
+ \le O\!\left(m^{1+\delta}\left(\frac{2}{r}\right)^{j\delta}\right).
+\end{aligned}
+\]
+
+\textbf{Sum over all depths.} For fixed \(r>2\) the per-level factor is
+below one, so the level costs form a convergent geometric series:
+
+\[
+\left(\frac{2}{r}\right)^{\delta}<1
+\quad\Longrightarrow\quad
+\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}=\frac{1}{1-\left(\frac{2}{r}\right)^{\delta}}=O(1).
+\]
+
+Therefore:
+
+\[
+B(m)=O\!\left(m^{1+\delta}\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}\right)=O\left(m^{1+\delta}\right).
+\]
+
+\textbf{Matching the stated bound.} Taking \(\delta=\varepsilon/2\)
+gives the stronger intermediate bound \(O(n^{1+\varepsilon/2})\), and
+hence the standard stated preprocessing bound:
+
+\[
+B(n)=O\left(n^{1+\varepsilon}\right).
+\]
+
+Note that \(O(n\log n)\subsetneq O(n^{1+\varepsilon})\) strictly: for
+every fixed \(\varepsilon>0\) we have \(\log n=O(n^{\varepsilon})\) but
+not the reverse. Matoušek's tighter \(O(n\log n)\) preprocessing is a
+separate result that charges construction against the partition
+structure rather than this level-by-level geometric series.
+
+\textbf{Caveat for this implementation.} The bound above is the
+theoretical guarantee. It does \textbf{not} claim this Python code runs
+in \(O(n^{1+\varepsilon})\) wall-clock time: that would additionally
+require a bit-complexity analysis of exact \texttt{Fraction} arithmetic
+and a runtime analysis of the randomized cutting retries and runtime
+verification. This code trades all of that away for exact arithmetic and
+verifiable preconditions, and is correspondingly slow.
+
 \hypertarget{references}{%
-\section{References}\label{references}}
+\subsection{References}\label{references}}
 
 \begin{itemize}
 \tightlist
 \item
-  Jiří Matoušek, \textbf{Efficient Partition Trees}, \emph{Discrete
-  \& Computational Geometry} 8, 315-334, 1992.
+  Jiri Matousek, \textbf{Efficient Partition Trees}, \emph{Discrete \&
+  Computational Geometry} 8, 315-334, 1992.
 \item
   Bernard Chazelle and Joel Friedman, \textbf{A deterministic view of
   random sampling and its use in geometry}, \emph{Combinatorica} 10,
