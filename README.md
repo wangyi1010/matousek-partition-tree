@@ -74,13 +74,10 @@ flowchart TB
     D --> E
 ```
 
-Why the loop shrinks and terminates: each round removes exactly $`s`$ points, so
-after about $`r=n/s`$ rounds the pool drops below $`2s`$ and the terminal group
-closes it out. The cutting scale $`t_i`$ tracks the shrinking pool $`n_i`$, so early
-rounds cut finely and late rounds coarsely. Step "double κ_i" is what feeds the
-next round's weights — an often-crossed test line becomes exponentially heavy, so
-the next cutting is forced to resolve it, which is exactly what drives $`K_Q`$ down
-to $`O(\sqrt r)`$.
+Each round removes exactly $`s`$ points, so the loop runs about $`r=n/s`$ times;
+the cutting scale $`t_i`$ tracks the shrinking pool, cutting finely early and
+coarsely late. Why the reweighting works — how it drives the crossing count down
+to $`O(\sqrt r)`$ — is the subject of the complexity section below.
 
 ## Complexity calculation
 
@@ -248,18 +245,11 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 | `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
 | `docs/` | self-contained math derivation of the 2D theorem, as GitHub-rendered Markdown plus a typeset PDF (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |
 
-## Theory in one paragraph
+## Full derivation
 
-Given $`n`$ points and group size $`s`$ ($`r=n/s`$), the theorem builds groups of size
-$`[s,2s)`$, each inside a triangle, such that every line crosses only $`O(\sqrt r)`$
-triangles. Construction: dualize points to lines; the vertices of a
-$`(1/\sqrt r)`$-cutting of the dual, dualized back, form $`\le r`$ *test lines* $`Q`$ such that
-controlling Q controls all lines (any line is "sandwiched" by 3 test lines).
-Groups are then peeled off round by round: each test line carries weight
-$`2^{\kappa}`$ (where $`\kappa`$ counts its crossings so far), and each round takes a $`\ge s`$-point face
-from a *weighted* cutting — expensive (often-crossed) lines are avoided by
-construction, and a potential argument turns slow total-weight growth into
-$`K_Q=O(\log\lvert Q\rvert+\sqrt r)`$. Full derivation with proofs:
+The complete proof — duality, the Test Set Lemma, the weight recurrence, the
+$`K_Q=O(\log\lvert Q\rvert+\sqrt r)`$ bound, and preprocessing time — with every
+step written out:
 [`docs/two_dimensional_partition_theorem_math.md`](docs/two_dimensional_partition_theorem_math.md).
 
 ## Citation
