@@ -201,13 +201,10 @@ quietly destroyed the theorem's cutting scale.
   not the projective plane; the construction is Las Vegas and may raise for
   small r or unlucky seeds; $`\beta\sqrt r\le 1`$ ($`r<16`$) degenerates the test-set
   cutting to a trivial box — the regime where the bound is vacuous anyway.
-- **Not a production spatial index.** For the practical counterpart, see
-  [`src/matousek_partition_tree/practical.py`](src/matousek_partition_tree/practical.py):
-  a float kd-style tree with the *same query skeleton* (classify cell →
-  prune / take whole / recurse) that answers the same queries exactly,
-  orders of magnitude faster — it just has no worst-case guarantee against
-  adversarial query lines. The pair is the point: what the guarantee costs,
-  and what industry gave up to go fast.
+- **Not a production spatial index.** This is the faithful theorem — exact
+  arithmetic, verified cuttings — built to be correct and measurable, not fast.
+  Production systems use R-trees / kd-trees with no adversarial guarantee
+  instead; the measurements above quantify why.
 
 ## Quick start
 
@@ -219,9 +216,6 @@ python3 -m pip install -e ".[dev,viz]"
 # proof-skeleton demo: build at r=64, verify 60 queries vs brute force,
 # print measured crossing numbers (~20 s)
 matousek-demo 1200 42
-
-# practical kd-style baseline (instant)
-practical-tree examples/points_example.csv --r 4 --leaf-size 2 --halfplane 1 0 -5
 
 # tests with the coverage gate
 pytest tests/ --cov
@@ -238,9 +232,8 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 | Path | What |
 |---|---|
 | `src/matousek_partition_tree/core.py` | the verified proof-skeleton construction + tree + queries |
-| `src/matousek_partition_tree/practical.py` | fast kd-style baseline, same query interface |
 | `src/visualize_matousek.py` | generates the partition figure from the verified code |
-| `src/matousek_partition_tree/{cli,practical_cli}.py` | console scripts `matousek-demo` and `practical-tree` |
+| `src/matousek_partition_tree/cli.py` | console script `matousek-demo` |
 | `benchmarks/measure_crossings.py` | K_Q / crossing-number measurement (the table above) |
 | `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
 | `docs/` | self-contained math derivation of the 2D theorem, as GitHub-rendered Markdown plus a typeset PDF (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |

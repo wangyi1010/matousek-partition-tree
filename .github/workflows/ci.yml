@@ -36,5 +36,3 @@ jobs:
         run: python -m pytest tests/ --cov --cov-report=term-missing
       - name: Run proof-skeleton demo (small)
         run: matousek-demo 400 42
-      - name: Run practical tree demo
-        run: practical-tree examples/points_example.csv --r 4 --leaf-size 2 --halfplane 1 0 -5

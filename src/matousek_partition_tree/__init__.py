@@ -1,6 +1,5 @@
 """Verified proof-skeleton implementation of the 2D Matoušek Partition
-Theorem for halfplane range counting, plus a practical kd-style baseline
-(``matousek_partition_tree.practical``)."""
+Theorem for halfplane range counting."""
 
 from matousek_partition_tree.core import (
     CuttingError,
@@ -21,7 +20,7 @@ from matousek_partition_tree.core import (
     weighted_cutting,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "CuttingError",

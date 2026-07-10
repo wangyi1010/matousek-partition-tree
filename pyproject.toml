@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "matousek-partition-tree"
-version = "0.3.0"
+version = "0.4.0"
 description = "Verified proof-skeleton implementation of the 2D Matoušek partition-tree construction for halfplane range counting."
 readme = "README.md"
 license = "MIT"
@@ -30,7 +30,6 @@ dev = [
 
 [project.scripts]
 matousek-demo = "matousek_partition_tree.cli:main"
-practical-tree = "matousek_partition_tree.practical_cli:main"
 
 [project.urls]
 Repository = "https://github.com/wangyi1010/matousek-partition-tree"

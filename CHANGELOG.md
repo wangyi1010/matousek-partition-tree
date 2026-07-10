@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and this project
 follows semantic versioning.
 
+## [0.4.0] — 2026-07-10
+
+Narrowed to the faithful theorem only.
+
+### Removed
+- The practical kd-style baseline (`practical.py`, `practical_cli.py`, the
+  `practical-tree` console script, and their test) and the `examples/`
+  directory that only served it. This repository is now exclusively the
+  exact-arithmetic, verified proof-faithful construction. The fast,
+  no-guarantee counterpart is out of scope here.
+
 ## [0.3.0] — 2026-07-03
 
 Production restructure: flat scripts become an installable package.
