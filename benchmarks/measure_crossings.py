@@ -87,7 +87,7 @@ def main() -> None:
         ax.plot(rs, [4 * v for v in sq], "--", label="4*sqrt(r) reference")
         ax.set_xlabel("r")
         ax.set_ylabel("simplices crossed")
-        ax.set_title(f"Crossing numbers vs r (n={n}) — mechanism works, constants dominate")
+        ax.set_title(f"Crossing numbers versus r (n = {n})")
         ax.legend(fontsize=9)
         fig.tight_layout()
         fig.savefig(plot_out, bbox_inches="tight")
