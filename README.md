@@ -158,7 +158,7 @@ $`O(n^{1+\varepsilon})`$ — each depth of the recursion costs a constant factor
 less than the one above it, because the child classes are disjoint and each is
 at most $`2n/r`$ in size, so for fixed $`r>2`$:
 
-$$\left(\tfrac{2}{r}\right)^{\delta}<1 \;\Longrightarrow\; \sum_{j\ge0}\left(\tfrac{2}{r}\right)^{j\delta}=O(1) \;\Longrightarrow\; B(n)=O\!\left(n^{1+\delta}\right).$$
+$$\left(\tfrac{2}{r}\right)^{\delta}<1 \;\Longrightarrow\; \sum_{j\ge0}\left(\tfrac{2}{r}\right)^{j\delta}=O(1) \;\Longrightarrow\; B(n)=O\left(n^{1+\delta}\right).$$
 
 This is a theorem-level bound, **not** a proved wall-clock bound for this
 implementation — exact `Fraction` arithmetic and randomized cutting retries make

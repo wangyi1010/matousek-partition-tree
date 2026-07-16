@@ -1244,9 +1244,9 @@ $$
 \begin{aligned}
 C_j
 &=\sum_{v\in V_j}O\left(m_v^{1+\delta}\right)
- =O\!\left(\sum_{v\in V_j}m_v\,m_v^{\delta}\right)\\
-&\le O\!\left(\left(\max_{v\in V_j}m_v\right)^{\delta}\sum_{v\in V_j}m_v\right)
- \le O\!\left(m^{1+\delta}\left(\frac{2}{r}\right)^{j\delta}\right).
+ =O\left(\sum_{v\in V_j}m_v\,m_v^{\delta}\right)\\
+&\le O\left(\left(\max_{v\in V_j}m_v\right)^{\delta}\sum_{v\in V_j}m_v\right)
+ \le O\left(m^{1+\delta}\left(\frac{2}{r}\right)^{j\delta}\right).
 \end{aligned}
 $$
 
@@ -1262,7 +1262,7 @@ $$
 Therefore:
 
 $$
-B(m)=O\!\left(m^{1+\delta}\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}\right)=O\left(m^{1+\delta}\right).
+B(m)=O\left(m^{1+\delta}\sum_{j\ge0}\left(\frac{2}{r}\right)^{j\delta}\right)=O\left(m^{1+\delta}\right).
 $$
 
 **Matching the stated bound.** Taking $`\delta=\varepsilon/2`$ gives the
