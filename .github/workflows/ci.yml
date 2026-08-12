@@ -36,3 +36,5 @@ jobs:
         run: python -m pytest tests/ --cov --cov-report=term-missing
       - name: Run proof-skeleton demo (small)
         run: matousek-demo 400 42
+      - name: Run performance benchmark smoke test
+        run: python benchmarks/measure_performance.py --smoke --json /tmp/performance.json

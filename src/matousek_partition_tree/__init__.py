@@ -12,6 +12,8 @@ from matousek_partition_tree.core import (
     build_test_set,
     build_tree,
     crossing_number,
+    dual_of_line,
+    dual_of_point,
     halfplane_side,
     line_crosses_tri,
     point_in_tri,
@@ -20,7 +22,7 @@ from matousek_partition_tree.core import (
     weighted_cutting,
 )
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     "CuttingError",
@@ -34,6 +36,8 @@ __all__ = [
     "build_test_set",
     "build_tree",
     "crossing_number",
+    "dual_of_line",
+    "dual_of_point",
     "halfplane_side",
     "line_crosses_tri",
     "point_in_tri",

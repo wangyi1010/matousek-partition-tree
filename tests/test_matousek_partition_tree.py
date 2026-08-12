@@ -16,7 +16,10 @@ from fractions import Fraction as F
 import pytest
 
 from matousek_partition_tree import (
+    CuttingError,
     build_tree,
+    dual_of_line,
+    dual_of_point,
     halfplane_side,
     line_crosses_tri,
     point_in_tri,
@@ -108,3 +111,49 @@ def test_weighted_cutting_postconditions():
     for tr in tris:
         crossing = sum(w for l, w in zip(lines, weights, strict=True) if line_crosses_tri(l, tr))
         assert crossing * t_frac <= W
+
+
+def test_duality_is_an_exact_involution():
+    points = [(F(2, 3), F(-5, 7)), (F(-11, 13), F(17, 19)), (F(0), F(0))]
+    lines = [(F(3, 5), F(-7, 11)), (F(-2), F(9, 4)), (F(0), F(0))]
+    assert all(dual_of_line(dual_of_point(point)) == point for point in points)
+    assert all(dual_of_point(dual_of_line(line)) == line for line in lines)
+
+
+def test_axis_aligned_and_boundary_queries_match_brute_force():
+    points = [
+        (F(-2), F(0)),
+        (F(-1), F(1)),
+        (F(0), F(0)),
+        (F(1), F(-1)),
+        (F(2), F(0)),
+    ]
+    tree = build_tree(points, r=4, leaf_size=2, rng=random.Random(11))
+    queries = [
+        (F(1), F(0), F(0)),
+        (F(0), F(1), F(0)),
+        (F(-1), F(0), F(1)),
+        (F(1), F(1), F(0)),
+    ]
+    for query in queries:
+        expected = sum(halfplane_side(query, point) >= 0 for point in points)
+        assert query_count(tree, query) == expected
+
+
+@pytest.mark.parametrize("seed", [0, 7, 19])
+def test_tree_queries_match_brute_force_across_seeds(seed):
+    points = make_points(n=120, seed=seed)
+    tree = build_tree(points, r=25, leaf_size=16, rng=random.Random(seed))
+    rng = random.Random(seed + 100)
+    for _ in range(8):
+        query = (F(rng.randint(-20, 20)), F(rng.randint(-20, 20)), F(rng.randint(-20, 20)))
+        if query[0] == 0 and query[1] == 0:
+            query = (F(1), query[1], query[2])
+        expected = sum(halfplane_side(query, point) >= 0 for point in points)
+        assert query_count(tree, query) == expected
+
+
+def test_cutting_rejects_an_impossible_face_budget():
+    box = [(F(-1), F(-1)), (F(1), F(-1)), (F(1), F(1)), (F(-1), F(1))]
+    with pytest.raises(CuttingError):
+        weighted_cutting([], [], 1.0, box, random.Random(0), max_faces=1)

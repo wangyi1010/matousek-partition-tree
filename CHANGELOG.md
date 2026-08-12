@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/), and this project
 follows semantic versioning.
 
+## [0.5.0] — 2026-08-12
+
+Added reproducible performance evidence and broader automated verification.
+
+### Added
+- Construction and exact-query benchmark with brute-force validation,
+  per-query latency, speedup ratio, and optional JSON output.
+- CI smoke execution of the performance benchmark.
+- Tests for exact duality, boundary and axis-aligned halfplanes, multiple
+  random seeds, and expected cutting failure behavior.
+
+### Clarified
+- Exactness applies to geometric coordinates and predicates; cutting scales
+  derived from square roots are numeric control parameters.
+- The implementation is a verified proof skeleton, not a machine-checked
+  proof of the Test Set Lemma or a certified projective-plane implementation.
+
 ## [0.4.0] — 2026-07-10
 
 Narrowed to the faithful theorem only.

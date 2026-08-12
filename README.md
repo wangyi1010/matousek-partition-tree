@@ -2,13 +2,18 @@
 
 [![ci](https://github.com/wangyi1010/matousek-partition-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/wangyi1010/matousek-partition-tree/actions/workflows/ci.yml)
 
-A working, runtime-verified implementation of the 2D **Partition Theorem**
+A working, runtime-verified proof skeleton of the 2D **Partition Theorem**
 (Matoušek 1992) for halfplane range counting — an algorithm that is optimal
 on paper and, as far as I can tell, has **no existing library implementation
 anywhere**. This project implements the actual proof machinery (point-line
 duality, weighted cuttings, exponential reweighting), verifies every
 enforceable precondition at runtime, and **measures the constants** that
 explain why theory-optimal never shipped.
+
+The implementation uses exact rational coordinates and geometric predicates.
+Irrational scale choices involving square roots are represented by bounded
+floating-point control parameters; they never replace exact orientation,
+containment, intersection, or halfplane predicates.
 
 ![One application of the Partition Theorem](assets/partition_tree_example.png)
 
@@ -44,6 +49,13 @@ Two things are true at once, and that tension is the point of the project:
   about non-test lines — and above it, the exact-arithmetic construction
   already takes minutes. This is why production systems use R-trees and
   kd-trees with no adversarial guarantee instead.
+
+The crossing experiment is complemented by
+`benchmarks/measure_performance.py`, which validates every timed query against
+brute force before reporting construction time, exact-query latency,
+brute-force latency, and their ratio. It can also write JSON for reproducible
+comparisons. Timings are intentionally not hard-coded here because they depend
+on the Python version and machine.
 
 ## How the construction works
 
@@ -183,11 +195,17 @@ checked, and violations raise instead of degrading silently:
   conflict bound).
 - **Pigeonhole is an assert, not a search**: the face budget guarantees a
   face with $`\ge s`$ remaining points exists.
-- **All geometry is exact rational arithmetic** (`fractions.Fraction`);
+- **All geometric coordinates and predicates use exact rational arithmetic**
+  (`fractions.Fraction`); square-root-derived cutting scales remain control
+  parameters rather than geometric coordinates;
   boundary contacts follow a general-position convention used consistently
   in construction and verification.
 - **Queries are exact** and tested against brute force (CI runs this on
   every push).
+- **Tests are automated** with `pytest` and GitHub Actions. They cover
+  partition postconditions, cutting postconditions, exact duality, boundary
+  queries, multiple random seeds, expected failure behavior, and query
+  equivalence against brute force.
 
 The verification discipline caught real bugs during development: a crossing
 convention that made the cutting condition unsatisfiable, a naive sampling
@@ -201,6 +219,9 @@ quietly destroyed the theorem's cutting scale.
   not the projective plane; the construction is Las Vegas and may raise for
   small r or unlucky seeds; $`\beta\sqrt r\le 1`$ ($`r<16`$) degenerates the test-set
   cutting to a trivial box — the regime where the bound is vacuous anyway.
+- **Not a machine-checked proof of the Test Set Lemma.** The repository
+  implements its construction and contains the mathematical derivation, while
+  experiments can inspect only finitely many query lines.
 - **Not a production spatial index.** This is the faithful theorem — exact
   arithmetic, verified cuttings — built to be correct and measurable, not fast.
   Production systems use R-trees / kd-trees with no adversarial guarantee
@@ -223,6 +244,10 @@ pytest tests/ --cov
 # reproduce the constants table + scaling plot
 python3 benchmarks/measure_crossings.py 1200 7 --plot assets/crossing_scaling.png
 
+# measure construction and exact-query performance; every query is first
+# checked against brute force, and results can be exported as JSON
+python3 benchmarks/measure_performance.py --json performance.json
+
 # regenerate the figure above
 python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 ```
@@ -235,7 +260,8 @@ python3 src/visualize_matousek.py 1200 42 assets/partition_tree_example.png
 | `src/visualize_matousek.py` | generates the partition figure from the verified code |
 | `src/matousek_partition_tree/cli.py` | console script `matousek-demo` |
 | `benchmarks/measure_crossings.py` | K_Q / crossing-number measurement (the table above) |
-| `tests/` | postcondition property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, exact-query equivalence |
+| `benchmarks/measure_performance.py` | validated construction/query timings, brute-force comparison, and JSON output |
+| `tests/` | automated property tests: partition validity, sizes in [s, 2s), simplex containment, cutting conditions, duality, boundary cases, multi-seed exact-query equivalence |
 | `docs/` | self-contained math derivation of the 2D theorem, as GitHub-rendered Markdown plus a typeset PDF (Helvetica Neue / STIX Two Math) built with pandoc + XeLaTeX |
 
 ## Full derivation
